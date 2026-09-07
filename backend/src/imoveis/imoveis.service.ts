@@ -48,7 +48,14 @@ export class ImoveisService {
     await this.findOne(imovelId);
     const uploaded = await this.cloudinary.uploadImage(file);
     return this.prisma.midia.create({
-      data: { imovelId, url: uploaded.secure_url, nome: file.originalname, tipo: file.mimetype.startsWith('video/') ? 'video' : 'imagem', mimeType: file.mimetype },
+      data: { imovelId, url: uploaded.secure_url, nome: file.originalname, tipo: file.mimetype.startsWith('video/') ? 'video' : 'imagem', mimeType: file.mimetype, publicId: uploaded.public_id, resourceType: uploaded.resource_type },
     });
+  }
+
+  async removeMedia(imovelId: number, mediaId: number) {
+    const media = await this.prisma.midia.findFirst({ where: { id: mediaId, imovelId } });
+    if (!media) throw new NotFoundException('Mídia não encontrada para este imóvel.');
+    if (media.publicId) await this.cloudinary.deleteMedia(media.publicId, media.resourceType);
+    return this.prisma.midia.delete({ where: { id: mediaId } });
   }
 }

@@ -72,6 +72,9 @@ export async function uploadMedia(id: number, arquivo: File) {
 export async function uploadMedias(id: number, arquivos: File[]) {
   for (const arquivo of arquivos) await uploadMedia(id, arquivo);
 }
+export async function deleteMedia(imovelId: number, mediaId: number) {
+  return parseResponse(await fetch(`${API_URL}/imoveis/${imovelId}/midias/${mediaId}`, { method: "DELETE", headers: authHeaders() }));
+}
 export function mediaUrl(url: string) {
   return /^https?:\/\//i.test(url) ? url : `${API_URL}${url}`;
 }

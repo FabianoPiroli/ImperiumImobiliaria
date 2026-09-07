@@ -2,7 +2,7 @@
 
 import { FormEvent, useEffect, useState } from "react";
 import { Brand } from "@/src/components/Brand";
-import { getImovel, mediaUrl, updateImovel, uploadMedias } from "@/src/lib/api";
+import { deleteMedia, getImovel, mediaUrl, updateImovel, uploadMedias } from "@/src/lib/api";
 
 type Imovel = {
   id: number;
@@ -99,6 +99,16 @@ export default function EditarImovelPage({
         error instanceof Error ? error.message : "Não foi possível salvar.",
       );
       setSalvando(false);
+    }
+  }
+
+  async function removeMedia(mediaId: number) {
+    if (!imovel || !window.confirm("Excluir esta mídia?")) return;
+    try {
+      await deleteMedia(imovel.id, mediaId);
+      setImovel({ ...imovel, midias: imovel.midias.filter((media) => media.id !== mediaId) });
+    } catch (error) {
+      setErro(error instanceof Error ? error.message : "Não foi possível excluir a mídia.");
     }
   }
 
@@ -256,12 +266,13 @@ export default function EditarImovelPage({
           <h2>Fotos e vídeos cadastrados</h2>
           <div className="admin-media-grid">
             {imovel.midias?.map((midia) => (
-              <div key={midia.id}>
+              <div className="admin-media-item" key={midia.id}>
                 {midia.tipo === "video" ? (
                   <video src={mediaUrl(midia.url)} controls />
                 ) : (
                   <img src={mediaUrl(midia.url)} alt={midia.nome} />
                 )}
+                <button className="button danger" type="button" onClick={() => removeMedia(midia.id)}>Excluir mídia</button>
               </div>
             ))}
           </div>

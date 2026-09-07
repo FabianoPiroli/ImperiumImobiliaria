@@ -43,6 +43,12 @@ export class ImoveisController {
     return this.service.delete(id);
   }
 
+  @Delete(':id/midias/:mediaId')
+  @UseGuards(JwtAuthGuard)
+  deleteMedia(@Param('id', ParseIntPipe) id: number, @Param('mediaId', ParseIntPipe) mediaId: number) {
+    return this.service.removeMedia(id, mediaId);
+  }
+
   @Post(':id/midias')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('arquivo', {

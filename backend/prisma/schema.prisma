@@ -50,6 +50,8 @@ model Midia {
   nome      String
   tipo      String
   mimeType  String
+  publicId  String?
+  resourceType String @default("image")
   imovelId  Int
   imovel    Imovel   @relation(fields: [imovelId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
