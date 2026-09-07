@@ -4,6 +4,8 @@ import { FormEvent, useEffect, useState } from "react";
 import { Brand } from "@/src/components/Brand";
 import { deleteMedia, getImovel, mediaUrl, updateImovel, uploadMedias } from "@/src/lib/api";
 
+import { LocationFields } from "@/src/components/LocationFields";
+
 type Imovel = {
   id: number;
   codigo: number;
@@ -21,23 +23,6 @@ type Imovel = {
   finalidade: string;
   midias: { id: number; url: string; tipo: string; nome: string }[];
 };
-
-const estados = ["SC", "PR", "RS", "SP"];
-const cidades = [
-  "Videira",
-  "Joaçaba",
-  "Caçador",
-  "Curitiba",
-  "Florianópolis",
-  "São Paulo",
-];
-const bairros = [
-  "Centro",
-  "Universitário",
-  "Jardim Canadá",
-  "São Cristóvão",
-  "Industrial",
-];
 const tipos = [
   "Casa",
   "Apartamento",
@@ -162,34 +147,12 @@ export default function EditarImovelPage({
               ))}
             </select>
           </label>
-          <label className="field">
-            <span>Estado</span>
-            <select name="estado" defaultValue={imovel.estado}>
-              {estados.map((estado) => (
-                <option key={estado}>{estado}</option>
-              ))}
-            </select>
-          </label>
-          <label className="field">
-            <span>Cidade</span>
-            <select name="cidade" defaultValue={imovel.cidade}>
-              {cidades.map((cidade) => (
-                <option key={cidade}>{cidade}</option>
-              ))}
-            </select>
-          </label>
-          <label className="field">
-            <span>Bairro</span>
-            <select name="bairro" defaultValue={imovel.bairro}>
-              {bairros.map((bairro) => (
-                <option key={bairro}>{bairro}</option>
-              ))}
-            </select>
-          </label>
-          <label className="field full">
-            <span>Endereço</span>
-            <input name="endereco" defaultValue={imovel.endereco} required />
-          </label>
+          <LocationFields
+            initialEstado={imovel.estado}
+            initialCidade={imovel.cidade}
+            initialBairro={imovel.bairro}
+            initialEndereco={imovel.endereco}
+          />
           <label className="field full">
             <span>Descrição</span>
             <textarea

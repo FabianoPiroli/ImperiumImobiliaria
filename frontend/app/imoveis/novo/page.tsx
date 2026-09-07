@@ -4,22 +4,7 @@ import { FormEvent, useState } from "react";
 import { Brand } from "@/src/components/Brand";
 import { createImovel, uploadMedias } from "@/src/lib/api";
 
-const estados = ["SC", "PR", "RS", "SP"];
-const cidades = [
-  "Videira",
-  "Joaçaba",
-  "Caçador",
-  "Curitiba",
-  "Florianópolis",
-  "São Paulo",
-];
-const bairros = [
-  "Centro",
-  "Universitário",
-  "Jardim Canadá",
-  "São Cristóvão",
-  "Industrial",
-];
+import { LocationFields } from "@/src/components/LocationFields";
 
 export default function NovoImovelPage() {
   const [erro, setErro] = useState("");
@@ -103,34 +88,7 @@ export default function NovoImovelPage() {
               <option>Terreno rural / sítio / fazenda / chácara</option>
             </select>
           </label>
-          <label className="field">
-            <span>Estado</span>
-            <select name="estado" defaultValue="SC">
-              {estados.map((estado) => (
-                <option key={estado}>{estado}</option>
-              ))}
-            </select>
-          </label>
-          <label className="field">
-            <span>Cidade</span>
-            <select name="cidade" defaultValue="Videira">
-              {cidades.map((cidade) => (
-                <option key={cidade}>{cidade}</option>
-              ))}
-            </select>
-          </label>
-          <label className="field">
-            <span>Bairro</span>
-            <select name="bairro" defaultValue="Centro">
-              {bairros.map((bairro) => (
-                <option key={bairro}>{bairro}</option>
-              ))}
-            </select>
-          </label>
-          <label className="field full">
-            <span>Endereço</span>
-            <input name="endereco" required />
-          </label>
+          <LocationFields initialEstado="SC" />
           <label className="field full">
             <span>Descrição</span>
             <textarea name="descricao" required />

@@ -1,7 +1,45 @@
 "use client";
-import { FormEvent } from "react";
+
+import { FormEvent, useEffect, useState } from "react";
+import { EstadoIBGE, CidadeIBGE } from "./LocationFields";
 
 export function PropertySearch() {
+  const [estados, setEstados] = useState<EstadoIBGE[]>([]);
+  const [cidades, setCidades] = useState<CidadeIBGE[]>([]);
+  const [estadoSel, setEstadoSel] = useState("");
+
+  // Carregar Estados do IBGE
+  useEffect(() => {
+    let active = true;
+    fetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome")
+      .then((res) => res.json())
+      .then((data: EstadoIBGE[]) => {
+        if (active) setEstados(data);
+      })
+      .catch((err) => console.error("Erro ao buscar estados na busca:", err));
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  // Carregar Cidades do IBGE conforme Estado selecionado
+  useEffect(() => {
+    if (!estadoSel) {
+      setCidades([]);
+      return;
+    }
+    let active = true;
+    fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${estadoSel}/municipios`)
+      .then((res) => res.json())
+      .then((data: CidadeIBGE[]) => {
+        if (active) setCidades(data);
+      })
+      .catch((err) => console.error("Erro ao buscar cidades na busca:", err));
+    return () => {
+      active = false;
+    };
+  }, [estadoSel]);
+
   function search(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -13,6 +51,7 @@ export function PropertySearch() {
     });
     window.location.href = `/${negociacao}${params.toString() ? `?${params}` : ""}`;
   }
+
   return (
     <form className="property-search" onSubmit={search}>
       <div className="search-heading">
@@ -51,22 +90,28 @@ export function PropertySearch() {
         </label>
         <label className="field">
           <span>Estado</span>
-          <select name="estado" defaultValue="">
+          <select
+            name="estado"
+            value={estadoSel}
+            onChange={(e) => setEstadoSel(e.target.value)}
+          >
             <option value="">Todos os estados</option>
-            <option value="SC">Santa Catarina</option>
-            <option value="PR">Paraná</option>
-            <option value="RS">Rio Grande do Sul</option>
-            <option value="SP">São Paulo</option>
+            {estados.map((uf) => (
+              <option key={uf.sigla} value={uf.sigla}>
+                {uf.nome} ({uf.sigla})
+              </option>
+            ))}
           </select>
         </label>
         <label className="field">
           <span>Cidade</span>
           <select name="cidade" defaultValue="">
             <option value="">Todas as cidades</option>
-            <option value="SC">Videira</option>
-            <option value="PR">Curitiba</option>
-            <option value="RS">Porto Alegre</option>
-            <option value="SP">Joaçaba</option>
+            {cidades.map((cidade) => (
+              <option key={cidade.id} value={cidade.nome}>
+                {cidade.nome}
+              </option>
+            ))}
           </select>
         </label>
         <label className="field">
