@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Imovel" ADD COLUMN     "bairro" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "estado" TEXT NOT NULL DEFAULT 'SC';
