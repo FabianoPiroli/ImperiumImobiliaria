@@ -3,10 +3,11 @@ import { PrismaService } from '../prisma/prisma.service';
 import { Imovel } from '@prisma/client';
 import { CreateImovelDto } from './dto/create-imovel.dto';
 import { UpdateImovelDto } from './dto/update-imovel.dto';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 @Injectable()
 export class ImoveisService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService, private cloudinary: CloudinaryService) {}
 
   findAll(): Promise<Imovel[]> {
     return this.prisma.imovel.findMany({ include: { midias: true }, orderBy: { createdAt: 'desc' } });
@@ -45,8 +46,9 @@ export class ImoveisService {
 
   async addMedia(imovelId: number, file: Express.Multer.File) {
     await this.findOne(imovelId);
+    const uploaded = await this.cloudinary.uploadImage(file);
     return this.prisma.midia.create({
-      data: { imovelId, url: `/uploads/${file.filename}`, nome: file.originalname, tipo: file.mimetype.startsWith('video/') ? 'video' : 'imagem', mimeType: file.mimetype },
+      data: { imovelId, url: uploaded.secure_url, nome: file.originalname, tipo: file.mimetype.startsWith('video/') ? 'video' : 'imagem', mimeType: file.mimetype },
     });
   }
 }

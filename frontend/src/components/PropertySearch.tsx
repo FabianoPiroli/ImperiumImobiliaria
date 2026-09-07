@@ -61,7 +61,13 @@ export function PropertySearch() {
         </label>
         <label className="field">
           <span>Cidade</span>
-          <input name="cidade" placeholder="Ex.: Videira" />
+          <select name="cidade" defaultValue="">
+            <option value="">Todas as cidades</option>
+            <option value="SC">Videira</option>
+            <option value="PR">Curitiba</option>
+            <option value="RS">Porto Alegre</option>
+            <option value="SP">Joaçaba</option>
+          </select>
         </label>
         <label className="field">
           <span>Bairro</span>

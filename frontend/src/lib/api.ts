@@ -73,5 +73,5 @@ export async function uploadMedias(id: number, arquivos: File[]) {
   for (const arquivo of arquivos) await uploadMedia(id, arquivo);
 }
 export function mediaUrl(url: string) {
-  return `${API_URL}${url}`;
+  return /^https?:\/\//i.test(url) ? url : `${API_URL}${url}`;
 }

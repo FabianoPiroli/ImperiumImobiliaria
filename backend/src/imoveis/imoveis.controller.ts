@@ -1,7 +1,6 @@
 import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards, UseInterceptors, UploadedFile, ParseIntPipe, BadRequestException } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { extname } from 'path';
+import { memoryStorage } from 'multer';
 import { ImoveisService } from './imoveis.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CreateImovelDto } from './dto/create-imovel.dto';
@@ -47,7 +46,7 @@ export class ImoveisController {
   @Post(':id/midias')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('arquivo', {
-    storage: diskStorage({ destination: './uploads', filename: (_request, file, callback) => callback(null, `${Date.now()}-${Math.round(Math.random() * 1e9)}${extname(file.originalname)}`) }),
+    storage: memoryStorage(),
     limits: { fileSize: 50 * 1024 * 1024 },
     fileFilter: (_request, file, callback) => {
       const permitido = file.mimetype.startsWith('image/') || file.mimetype.startsWith('video/');
