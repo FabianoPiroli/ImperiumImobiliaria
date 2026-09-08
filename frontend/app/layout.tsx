@@ -15,6 +15,11 @@ const display = Playfair_Display({
 export const metadata: Metadata = {
   title: "Imperium Imobiliária",
   description: "Gestão inteligente de imóveis",
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { deleteImovel, getImoveis } from "@/src/lib/api";
+import { deleteImovel, getImoveis, mediaUrl } from "@/src/lib/api";
 import { Brand } from "@/src/components/Brand";
 
 type Imovel = {
@@ -15,6 +15,8 @@ type Imovel = {
   banheiros: number;
   vagasGaragem: number;
   status: string;
+  finalidade?: string;
+  midias?: { url: string; tipo: string }[];
 };
 
 export default function ImoveisPage() {
@@ -60,37 +62,53 @@ export default function ImoveisPage() {
           <div className="panel">{erro}</div>
         ) : (
           <div className="property-grid">
-            {imoveis.map((imovel) => (
-              <article className="property-card" key={imovel.id}>
-                <span className="eyebrow">
-                  Código {imovel.codigo} · {imovel.status}
-                </span>
-                <h2>{imovel.titulo}</h2>
-                <p>{imovel.descricao}</p>
-                <span>{imovel.cidade}</span>
-                <div className="property-meta">
-                  <span>R$ {imovel.preco.toLocaleString("pt-BR")}</span>
-                  <span>
-                    {imovel.quartos} qtos · {imovel.banheiros} banh. ·{" "}
-                    {imovel.vagasGaragem} vagas
-                  </span>
-                </div>
-                <div style={{ display: "flex", gap: 8, marginTop: 18 }}>
-                  <a
-                    className="button secondary"
-                    href={`/imoveis/${imovel.id}`}
-                  >
-                    Editar
-                  </a>
-                  <button
-                    className="button danger"
-                    onClick={() => remove(imovel.id)}
-                  >
-                    Excluir
-                  </button>
-                </div>
-              </article>
-            ))}
+            {imoveis.map((imovel) => {
+              const primeiraImagem = imovel.midias?.find(
+                (m) => m.tipo === "imagem"
+              );
+              return (
+                <article className="public-property-card" key={imovel.id}>
+                  <div className="property-image">
+                    {primeiraImagem ? (
+                      <img
+                        src={mediaUrl(primeiraImagem.url)}
+                        alt={imovel.titulo}
+                      />
+                    ) : (
+                      <span className="image-placeholder">Imperium</span>
+                    )}
+                  </div>
+                  <div className="public-property-content">
+                    <span className="eyebrow">
+                      Código {imovel.codigo} · {imovel.status}
+                    </span>
+                    <h2>{imovel.titulo}</h2>
+                    <p>{imovel.descricao}</p>
+                    <div className="property-meta">
+                      <span>R$ {imovel.preco.toLocaleString("pt-BR")}</span>
+                      <span>
+                        {imovel.quartos} qtos · {imovel.banheiros} banh. ·{" "}
+                        {imovel.vagasGaragem} vagas
+                      </span>
+                    </div>
+                    <div style={{ display: "flex", gap: 8, marginTop: "auto", paddingTop: 18 }}>
+                      <a
+                        className="button secondary"
+                        href={`/imoveis/${imovel.id}`}
+                      >
+                        Editar
+                      </a>
+                      <button
+                        className="button danger"
+                        onClick={() => remove(imovel.id)}
+                      >
+                        Excluir
+                      </button>
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         )}
       </div>
