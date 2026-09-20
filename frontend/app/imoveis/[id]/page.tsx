@@ -21,6 +21,9 @@ type Imovel = {
   banheiros: number;
   vagasGaragem: number;
   finalidade: string;
+  latitude?: number | null;
+  longitude?: number | null;
+  ocultarNumeroExato?: boolean;
   midias: { id: number; url: string; tipo: string; nome: string }[];
 };
 const tipos = [
@@ -56,6 +59,8 @@ export default function EditarImovelPage({
     const formElement = event.currentTarget;
     const form = new FormData(formElement);
     try {
+      const latVal = form.get("latitude");
+      const lngVal = form.get("longitude");
       await updateImovel(imovel.id, {
         titulo: form.get("titulo"),
         descricao: form.get("descricao"),
@@ -69,6 +74,9 @@ export default function EditarImovelPage({
         banheiros: Number(form.get("banheiros")),
         vagasGaragem: Number(form.get("vagasGaragem")),
         finalidade: form.get("finalidade"),
+        latitude: latVal && !isNaN(Number(latVal)) ? Number(latVal) : null,
+        longitude: lngVal && !isNaN(Number(lngVal)) ? Number(lngVal) : null,
+        ocultarNumeroExato: form.get("ocultarNumeroExato") === "true",
       });
       const imagens = Array.from(
         (formElement.elements.namedItem("arquivoImagem") as HTMLInputElement)
@@ -152,6 +160,9 @@ export default function EditarImovelPage({
             initialCidade={imovel.cidade}
             initialBairro={imovel.bairro}
             initialEndereco={imovel.endereco}
+            initialLatitude={imovel.latitude}
+            initialLongitude={imovel.longitude}
+            initialOcultarNumeroExato={imovel.ocultarNumeroExato}
           />
           <label className="field full">
             <span>Descrição</span>

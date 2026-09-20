@@ -18,6 +18,8 @@ export default function NovoImovelPage() {
     const form = new FormData(formElement);
 
     try {
+      const latVal = form.get("latitude");
+      const lngVal = form.get("longitude");
       const imovel = await createImovel({
         titulo: form.get("titulo"),
         descricao: form.get("descricao"),
@@ -31,6 +33,9 @@ export default function NovoImovelPage() {
         banheiros: Number(form.get("banheiros")),
         vagasGaragem: Number(form.get("vagasGaragem")),
         finalidade: form.get("finalidade"),
+        latitude: latVal && !isNaN(Number(latVal)) ? Number(latVal) : undefined,
+        longitude: lngVal && !isNaN(Number(lngVal)) ? Number(lngVal) : undefined,
+        ocultarNumeroExato: form.get("ocultarNumeroExato") === "true",
       });
       const imagens = Array.from(
         (formElement.elements.namedItem("arquivoImagem") as HTMLInputElement)

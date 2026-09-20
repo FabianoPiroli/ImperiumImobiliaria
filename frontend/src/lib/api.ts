@@ -78,3 +78,9 @@ export async function deleteMedia(imovelId: number, mediaId: number) {
 export function mediaUrl(url: string) {
   return /^https?:\/\//i.test(url) ? url : `${API_URL}${url}`;
 }
+
+export async function resolveMapsUrl(url: string): Promise<{ lat: number; lng: number }> {
+  return parseResponse(
+    await fetch(`${API_URL}/imoveis/resolver-maps?url=${encodeURIComponent(url)}`),
+  );
+}

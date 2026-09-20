@@ -58,4 +58,55 @@ export class ImoveisService {
     if (media.publicId) await this.cloudinary.deleteMedia(media.publicId, media.resourceType);
     return this.prisma.midia.delete({ where: { id: mediaId } });
   }
+
+  async resolveMapsUrl(url: string): Promise<{ lat: number; lng: number } | null> {
+    try {
+      if (!/^https?:\/\//i.test(url)) return null;
+
+      const response = await fetch(url, {
+        method: 'GET',
+        redirect: 'follow',
+        headers: {
+          'User-Agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        },
+      });
+
+      const finalUrl = response.url || url;
+
+      // 1. Tentar casar @lat,lng na URL final
+      const matchAt = finalUrl.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
+      if (matchAt) {
+        return { lat: parseFloat(matchAt[1]), lng: parseFloat(matchAt[2]) };
+      }
+
+      // 2. Tentar casar parâmetro de busca ?q=lat,lng ou ?query=lat,lng
+      const matchQ = finalUrl.match(/[?&](?:q|query)=(-?\d+\.\d+),(-?\d+\.\d+)/);
+      if (matchQ) {
+        return { lat: parseFloat(matchQ[1]), lng: parseFloat(matchQ[2]) };
+      }
+
+      // 3. Tentar casar coordenadas no corpo da URL (ex: /place/.../-27.5969,-48.5495)
+      const matchCoords = finalUrl.match(/(-?\d{1,2}\.\d{3,})[,\s]+(-?\d{1,3}\.\d{3,})/);
+      if (matchCoords) {
+        return { lat: parseFloat(matchCoords[1]), lng: parseFloat(matchCoords[2]) };
+      }
+
+      // 4. Se for HTML retornado, verificar se contém metatag ou link com coordenadas
+      const html = await response.text();
+      const metaMatch = html.match(/meta\s+content="https:\/\/maps\.google\.com\/maps\/api\/staticmap\?[^"]*center=(-?\d+\.\d+)%2C(-?\d+\.\d+)/);
+      if (metaMatch) {
+        return { lat: parseFloat(metaMatch[1]), lng: parseFloat(metaMatch[2]) };
+      }
+
+      const metaMatch2 = html.match(/(-?\d{1,2}\.\d{4,})[,\s]+(-?\d{1,3}\.\d{4,})/);
+      if (metaMatch2) {
+        return { lat: parseFloat(metaMatch2[1]), lng: parseFloat(metaMatch2[2]) };
+      }
+
+      return null;
+    } catch {
+      return null;
+    }
+  }
 }

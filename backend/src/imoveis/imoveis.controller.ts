@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards, UseInterceptors, UploadedFile, ParseIntPipe, BadRequestException } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Query, UseGuards, UseInterceptors, UploadedFile, ParseIntPipe, BadRequestException } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
 import { ImoveisService } from './imoveis.service';
@@ -9,6 +9,16 @@ import { UpdateImovelDto } from './dto/update-imovel.dto';
 @Controller('imoveis')
 export class ImoveisController {
   constructor(private service: ImoveisService) {}
+
+  @Get('resolver-maps')
+  async resolveMapsUrl(@Query('url') url: string) {
+    if (!url) throw new BadRequestException('A URL é obrigatória.');
+    const coords = await this.service.resolveMapsUrl(url);
+    if (!coords) {
+      throw new BadRequestException('Não foi possível extrair as coordenadas do link informado.');
+    }
+    return coords;
+  }
 
   @Get()
   findAll() {

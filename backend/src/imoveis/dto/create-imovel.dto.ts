@@ -1,4 +1,4 @@
-import { IsInt, IsNumber, IsOptional, IsString, Min } from 'class-validator';
+import { IsBoolean, IsInt, IsNumber, IsOptional, IsString, Min } from 'class-validator';
 
 export class CreateImovelDto {
   @IsString() titulo: string;
@@ -14,4 +14,7 @@ export class CreateImovelDto {
   @IsInt() @Min(0) vagasGaragem: number;
   @IsOptional() @IsString() status?: string;
   @IsOptional() @IsString() finalidade?: string;
+  @IsOptional() @IsNumber() latitude?: number;
+  @IsOptional() @IsNumber() longitude?: number;
+  @IsOptional() @IsBoolean() ocultarNumeroExato?: boolean;
 }

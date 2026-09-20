@@ -32,6 +32,9 @@ model Imovel {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   midias    Midia[]
+  latitude     Float?
+  longitude    Float?
+  ocultarNumeroExato   Boolean @default(false)
 }
 
 model User {

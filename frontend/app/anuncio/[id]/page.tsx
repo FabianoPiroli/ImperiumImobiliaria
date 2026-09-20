@@ -1,10 +1,31 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import { PublicFooter } from "@/src/components/PublicFooter";
 import { PublicHeader } from "@/src/components/PublicHeader";
 import { getImovel } from "@/src/lib/api";
 import { MediaCarousel } from "@/src/components/MediaCarousel";
+
+const PropertyMap = dynamic(() => import("@/src/components/PropertyMap"), {
+  ssr: false,
+  loading: () => (
+    <div
+      style={{
+        height: "280px",
+        background: "#f4f1ea",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: "8px",
+        color: "var(--muted)",
+        fontSize: "0.88rem",
+      }}
+    >
+      Carregando mapa...
+    </div>
+  ),
+});
 
 type Imovel = {
   id: number;
@@ -12,13 +33,18 @@ type Imovel = {
   titulo: string;
   descricao: string;
   tipo: string;
+  estado?: string;
   cidade: string;
+  bairro?: string;
   endereco: string;
   preco: number;
   quartos: number;
   banheiros: number;
   vagasGaragem: number;
   finalidade: string;
+  latitude?: number | null;
+  longitude?: number | null;
+  ocultarNumeroExato?: boolean;
   midias?: { url: string; tipo: string; nome: string }[];
 };
 
@@ -77,15 +103,91 @@ export default function AnuncioPage({
                 <span>{imovel.vagasGaragem} vagas</span>
               </div>
               <p className="detail-address">
-                {imovel.endereco}
-                <br />
-                {imovel.cidade}
+                {imovel.ocultarNumeroExato
+                  ? imovel.bairro
+                    ? `${imovel.bairro}, ${imovel.cidade}`
+                    : imovel.cidade
+                  : imovel.endereco}
+                {imovel.ocultarNumeroExato ? (
+                  <small
+                    style={{
+                      display: "block",
+                      color: "var(--muted)",
+                      marginTop: "4px",
+                    }}
+                  >
+                    📍 Localização aproximada
+                  </small>
+                ) : (
+                  <>
+                    <br />
+                    {imovel.cidade}
+                  </>
+                )}
               </p>
               <a className="button" href="/contato">
                 Tenho interesse
               </a>
             </section>
           </div>
+
+          {typeof imovel.latitude === "number" &&
+            typeof imovel.longitude === "number" && (
+              <section
+                style={{
+                  marginTop: "32px",
+                  padding: "24px",
+                  background: "var(--paper)",
+                  border: "1px solid var(--line)",
+                  borderRadius: "12px",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: "16px",
+                    flexWrap: "wrap",
+                    gap: "12px",
+                  }}
+                >
+                  <div>
+                    <h2 style={{ margin: 0, fontSize: "1.3rem" }}>Localização</h2>
+                    <span style={{ fontSize: "0.88rem", color: "var(--muted)" }}>
+                      {imovel.ocultarNumeroExato
+                        ? "Área aproximada do imóvel (a pedido do proprietário)"
+                        : `${imovel.endereco} · ${imovel.cidade}`}
+                    </span>
+                  </div>
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${imovel.latitude},${imovel.longitude}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="button secondary"
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "8px",
+                      fontSize: "0.85rem",
+                      padding: "8px 16px",
+                      textDecoration: "none",
+                    }}
+                  >
+                    <span>🗺️</span>
+                    <span>Abrir no Google Maps</span>
+                  </a>
+                </div>
+                <PropertyMap
+                  latitude={imovel.latitude}
+                  longitude={imovel.longitude}
+                  editable={false}
+                  ocultarNumeroExato={imovel.ocultarNumeroExato}
+                  height="340px"
+                  popupTitle={imovel.titulo}
+                />
+              </section>
+            )}
         </main>
         <PublicFooter />
       </div>
