@@ -1,4 +1,11 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000";
+function getApiUrl(): string {
+  const raw = process.env.NEXT_PUBLIC_API_URL?.trim();
+  if (!raw) return "http://localhost:3000";
+  const clean = raw.replace(/\/+$/, "");
+  return /^https?:\/\//i.test(clean) ? clean : `https://${clean}`;
+}
+
+const API_URL = getApiUrl();
 
 function authHeaders(): Record<string, string> {
   const token =
