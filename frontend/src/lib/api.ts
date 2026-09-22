@@ -1,5 +1,5 @@
 function getApiUrl(): string {
-  const raw = process.env.NEXT_PUBLIC_API_URL?.trim();
+  const raw = (process.env.NEXT_PUBLIC_API_BASE_URL || process.env.NEXT_PUBLIC_API_URL)?.trim();
   if (!raw) return "http://localhost:3000";
   const clean = raw.replace(/\/+$/, "");
   return /^https?:\/\//i.test(clean) ? clean : `https://${clean}`;

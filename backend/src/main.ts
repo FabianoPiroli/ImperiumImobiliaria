@@ -3,7 +3,10 @@ import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import helmet from 'helmet';
 import express from 'express';
+import { AllExceptionsFilter } from './common/filters/http-exception.filter';
 
 const server = express();
 let isInitialized = false;
@@ -11,12 +14,59 @@ let isInitialized = false;
 async function bootstrap() {
   if (!isInitialized) {
     const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
+
+    // Headers de segurança com Helmet
+    app.use(
+      helmet({
+        contentSecurityPolicy: false,
+        crossOriginEmbedderPolicy: false,
+      }),
+    );
+
+    // Filtro global de exceções para proteção contra vazamento de dados internos
+    app.useGlobalFilters(new AllExceptionsFilter());
+
+    // Configuração de CORS seguro
+    const frontendUrl = process.env.FRONTEND_URL;
+    const allowedOrigins = frontendUrl
+      ? frontendUrl.split(',').map((u) => u.trim().replace(/\/+$/, ''))
+      : ['http://localhost:3000', 'http://localhost:3001'];
+
     app.enableCors({
-      origin: '*',
+      origin: (origin, callback) => {
+        if (
+          !origin ||
+          allowedOrigins.includes(origin) ||
+          process.env.NODE_ENV !== 'production'
+        ) {
+          callback(null, true);
+        } else {
+          callback(new Error('Origem não permitida pela política de CORS.'));
+        }
+      },
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
       credentials: true,
     });
-    app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
+
+    // Validação estrita de entradas via DTO
+    app.useGlobalPipes(
+      new ValidationPipe({
+        whitelist: true,
+        forbidNonWhitelisted: true,
+        transform: true,
+      }),
+    );
+
+    // Documentação Swagger / OpenAPI
+    const swaggerConfig = new DocumentBuilder()
+      .setTitle('Imperium Imobiliária - API')
+      .setDescription('Documentação dos endpoints e serviços da Imperium Imobiliária')
+      .setVersion('1.0')
+      .addBearerAuth()
+      .build();
+    const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig);
+    SwaggerModule.setup('api/docs', app, swaggerDocument);
+
     await app.init();
     isInitialized = true;
   }
@@ -32,7 +82,8 @@ if (!process.env.VERCEL) {
   bootstrap().then(() => {
     const port = process.env.PORT ?? 3000;
     server.listen(port, () => {
-      console.log(`Application is running on: http://localhost:${port}`);
+      console.log(`Aplicação iniciada com sucesso em: http://localhost:${port}`);
+      console.log(`Documentação Swagger disponível em: http://localhost:${port}/api/docs`);
     });
   });
 }
