@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { getImoveis, mediaUrl } from "@/src/lib/api";
+import { Bed, Bath, Car } from "lucide-react";
 type Imovel = {
   id: number;
   codigo: number;
@@ -89,15 +90,51 @@ export function PublicCatalog({
                     {imovel.cidade}
                   </span>
                   <h2>{imovel.titulo}</h2>
-                  <p>{imovel.descricao}</p>
                   <div className="property-meta">
                     <span>
                       R$ {imovel.preco.toLocaleString("pt-BR")}
                       {finalidade === "aluguel" && <small>/mês</small>}
                     </span>
-                    <span>
-                      {imovel.quartos} qtos · {imovel.banheiros} banh. ·{" "}
-                      {imovel.vagasGaragem} vagas
+                    <span
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "12px",
+                      }}
+                    >
+                      <span
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "4px",
+                        }}
+                        title={`${imovel.quartos} quartos`}
+                      >
+                        <Bed size={16} />
+                        <span>{imovel.quartos}</span>
+                      </span>
+                      <span
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "4px",
+                        }}
+                        title={`${imovel.banheiros} banheiros`}
+                      >
+                        <Bath size={16} />
+                        <span>{imovel.banheiros}</span>
+                      </span>
+                      <span
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "4px",
+                        }}
+                        title={`${imovel.vagasGaragem} vagas`}
+                      >
+                        <Car size={16} />
+                        <span>{imovel.vagasGaragem}</span>
+                      </span>
                     </span>
                   </div>
                   <span className="text-link">
