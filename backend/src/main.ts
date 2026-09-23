@@ -26,24 +26,14 @@ async function bootstrap() {
     // Filtro global de exceções para proteção contra vazamento de dados internos
     app.useGlobalFilters(new AllExceptionsFilter());
 
-    // Configuração de CORS seguro
     // Configuração de CORS seguro e compatível com Vercel
     const frontendUrl = process.env.FRONTEND_URL;
     const allowedOrigins = frontendUrl
       ? frontendUrl.split(',').map((u) => u.trim().replace(/\/+$/, ''))
-      : ['http://localhost:3000', 'http://localhost:3001'];
       : [];
 
     app.enableCors({
       origin: (origin, callback) => {
-        if (
-          !origin ||
-          allowedOrigins.includes(origin) ||
-          process.env.NODE_ENV !== 'production'
-        ) {
-          callback(null, true);
-        } else {
-          callback(new Error('Origem não permitida pela política de CORS.'));
         // Permitir requisições sem header Origin (como SSR, server-to-server, curl, Postman)
         if (!origin) return callback(null, true);
 
