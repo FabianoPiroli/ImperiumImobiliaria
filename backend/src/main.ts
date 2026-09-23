@@ -27,10 +27,12 @@ async function bootstrap() {
     app.useGlobalFilters(new AllExceptionsFilter());
 
     // Configuração de CORS seguro
+    // Configuração de CORS seguro e compatível com Vercel
     const frontendUrl = process.env.FRONTEND_URL;
     const allowedOrigins = frontendUrl
       ? frontendUrl.split(',').map((u) => u.trim().replace(/\/+$/, ''))
       : ['http://localhost:3000', 'http://localhost:3001'];
+      : [];
 
     app.enableCors({
       origin: (origin, callback) => {
@@ -42,6 +44,33 @@ async function bootstrap() {
           callback(null, true);
         } else {
           callback(new Error('Origem não permitida pela política de CORS.'));
+        // Permitir requisições sem header Origin (como SSR, server-to-server, curl, Postman)
+        if (!origin) return callback(null, true);
+
+        try {
+          const parsedOrigin = new URL(origin);
+          const isLocalhost =
+            parsedOrigin.hostname === 'localhost' ||
+            parsedOrigin.hostname === '127.0.0.1';
+          const isVercel =
+            parsedOrigin.hostname === 'vercel.app' ||
+            parsedOrigin.hostname.endsWith('.vercel.app');
+          const isExplicitlyAllowed = allowedOrigins.includes(origin);
+
+          // Se estiver em desenvolvimento, se for Vercel, localhost ou se estiver na whitelist
+          if (
+            process.env.NODE_ENV !== 'production' ||
+            !frontendUrl ||
+            isLocalhost ||
+            isVercel ||
+            isExplicitlyAllowed
+          ) {
+            return callback(null, true);
+          }
+
+          return callback(null, false);
+        } catch {
+          return callback(null, false);
         }
       },
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
