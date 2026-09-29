@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Imperium Imobiliária - Frontend
 
-## Getting Started
+Interface web do catálogo e da gestão de imóveis, construída com Next.js, React e TypeScript.
 
-First, run the development server:
+## Recursos
+
+- Catálogo público de imóveis;
+- Páginas separadas para compra, locação e detalhes do anúncio;
+- Busca e filtros de imóveis;
+- Cadastro e edição de imóveis para usuários autenticados;
+- Login administrativo;
+- Upload e gerenciamento de mídias;
+- Visualização de localização em mapa;
+- Layout responsivo.
+
+## Tecnologias
+
+- Next.js 16 com App Router;
+- React 19;
+- TypeScript;
+- Leaflet;
+- Lucide React;
+- ESLint.
+
+## Instalação
+
+```bash
+npm install
+```
+
+Opcionalmente, configure a URL da API em `.env.local`:
+
+```env
+NEXT_PUBLIC_API_BASE_URL=http://localhost:3000
+```
+
+Sem essa variável, o frontend usa `http://localhost:3000` como fallback.
+
+## Execução
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+O frontend ficará disponível em `http://localhost:3001`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Estrutura
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```text
+frontend/
+├── app/
+│   ├── comprar/              # Catálogo de imóveis à venda
+│   ├── alugar/               # Catálogo de imóveis para locação
+│   ├── anuncio/[id]/         # Página pública do anúncio
+│   ├── imoveis/              # Gestão de imóveis
+│   ├── login/                # Autenticação
+│   ├── contato/              # Contato
+│   └── sobre/                # Informações institucionais
+└── src/
+    ├── components/           # Componentes reutilizáveis
+    └── lib/                  # API e utilitários
+```
 
-## Learn More
+## Scripts
 
-To learn more about Next.js, take a look at the following resources:
+| Comando | Descrição |
+| --- | --- |
+| `npm run dev` | Servidor de desenvolvimento na porta `3001` |
+| `npm run build` | Build de produção e verificação TypeScript |
+| `npm run start` | Inicia o build de produção |
+| `npm run lint` | Executa ESLint |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Integração com a API
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+A comunicação com o backend está centralizada em `src/lib/api.ts`. O token de autenticação é enviado como Bearer Token nas operações protegidas. A API padrão é `http://localhost:3000`; em outros ambientes, configure `NEXT_PUBLIC_API_BASE_URL`.
 
-## Deploy on Vercel
+## Build
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run lint
+npm run build
+npm run start
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+O frontend pode ser publicado como um projeto Next.js separado na Vercel, apontando `NEXT_PUBLIC_API_BASE_URL` para a API publicada.
