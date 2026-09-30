@@ -95,9 +95,21 @@ Crie o arquivo de ambiente do backend a partir do exemplo:
 Copy-Item backend/.env.example backend/.env
 ```
 
+No macOS/Linux, use:
+
+```bash
+cp backend/.env.example backend/.env
+```
+
 Preencha as variáveis de banco, autenticação, CORS e Cloudinary em `backend/.env`. O arquivo `.env.example` é versionado; arquivos `.env` não são.
 
 As variáveis mais importantes são `POSTGRES_PRISMA_URL`, `POSTGRES_URL_NON_POOLING`, `JWT_SECRET`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `FRONTEND_URL` e as variáveis `CLOUDINARY_*`.
+
+O frontend usa `http://localhost:3000` como endereço padrão da API. Para apontar para outra API, crie `frontend/.env.local` com:
+
+```env
+NEXT_PUBLIC_API_BASE_URL=http://localhost:3000
+```
 
 ## Banco de dados
 
@@ -120,12 +132,13 @@ O comprovante versionado dessa verificação está em [docs/migrations.md](docs/
 
 ## Executando
 
-Na raiz, em terminais separados:
+Na raiz, em um único terminal:
 
 ```bash
-npm run dev:backend
-npm run dev:frontend
+npm run dev
 ```
+
+Esse comando inicia o backend e o frontend simultaneamente. Também é possível executá-los em terminais separados com `npm run dev:backend` e `npm run dev:frontend`.
 
 - Frontend: `http://localhost:3001`;
 - API: `http://localhost:3000`;
@@ -135,7 +148,8 @@ npm run dev:frontend
 
 | Comando | Descrição |
 | --- | --- |
-| `npm run setup` | Instala dependências do backend e frontend |
+| `npm run setup` | Instala dependências da raiz, backend e frontend |
+| `npm run dev` | Inicia backend e frontend simultaneamente |
 | `npm run dev:backend` | Inicia o backend em modo de desenvolvimento |
 | `npm run dev:frontend` | Inicia o frontend em modo de desenvolvimento |
 | `npm run build` | Compila backend e frontend |
