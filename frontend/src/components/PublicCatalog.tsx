@@ -1,7 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { getImoveis, mediaUrl } from "@/src/lib/api";
-import { Bed, Bath, Car } from "lucide-react";
+import { Bed, Bath, Car, Heart } from "lucide-react";
+import { useCallback } from "react";
 type Imovel = {
   id: number;
   codigo: number;
@@ -49,6 +50,14 @@ export function PublicCatalog({
       (!cidade || imovel.cidade.toLowerCase().includes(cidade.toLowerCase())) &&
       (!bairro || imovel.bairro.toLowerCase().includes(bairro.toLowerCase())),
   );
+  const [favoritos, setFavoritos] = useState<number[]>([]);
+
+  const toggleFavorito = useCallback((id: number) => {
+    setFavoritos((prev) =>
+      prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id],
+    );
+  }, []);
+
   return (
     <section className="public-listing">
       <div className="property-grid">
@@ -82,6 +91,27 @@ export function PublicCatalog({
                   ) : (
                     <span className="image-placeholder">Imperium</span>
                   )}
+                  <button
+                    aria-label={favoritos.includes(imovel.id) ? "Remover dos favoritos" : "Adicionar aos favoritos"}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleFavorito(imovel.id);
+                    }}
+                    className="favorite-toggle"
+                    style={{
+                      position: "absolute",
+                      top: 8,
+                      right: 8,
+                      background: "transparent",
+                      border: "none",
+                      padding: 6,
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Heart size={18} fill={favoritos.includes(imovel.id) ? "currentColor" : "none"} />
+                  </button>
                 </div>
                 <div className="public-property-content">
                   <span className="eyebrow">
