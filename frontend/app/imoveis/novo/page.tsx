@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { Brand } from "@/src/components/Brand";
+import { ThemeToggle } from "@/src/components/ThemeToggle";
 import { createImovel, uploadMedias } from "@/src/lib/api";
 
 import { LocationFields } from "@/src/components/LocationFields";
@@ -61,9 +62,12 @@ export default function NovoImovelPage() {
           <a className="brand" href="/">
             <Brand />
           </a>
-          <a href="/imoveis" className="button secondary">
-            Voltar
-          </a>
+          <div className="admin-actions">
+            <ThemeToggle />
+            <a href="/imoveis" className="button secondary">
+              Voltar
+            </a>
+          </div>
         </header>
         <div className="page-head">
           <div>

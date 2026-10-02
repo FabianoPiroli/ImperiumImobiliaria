@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { deleteImovel, getImoveis, mediaUrl } from "@/src/lib/api";
 import { Brand } from "@/src/components/Brand";
+import { ThemeToggle } from "@/src/components/ThemeToggle";
 import { Bed, Bath, Car } from "lucide-react";
 
 type Imovel = {
@@ -40,15 +41,18 @@ export default function ImoveisPage() {
           <a className="brand" href="/">
             <Brand />
           </a>
-          <button
-            className="button secondary"
-            onClick={() => {
-              localStorage.removeItem("imperium_token");
-              window.location.href = "/login";
-            }}
-          >
-            Sair
-          </button>
+          <div className="admin-actions">
+            <ThemeToggle />
+            <button
+              className="button secondary"
+              onClick={() => {
+                localStorage.removeItem("imperium_token");
+                window.location.href = "/login";
+              }}
+            >
+              Sair
+            </button>
+          </div>
         </header>
         <div className="page-head">
           <div>

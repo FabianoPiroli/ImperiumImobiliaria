@@ -448,14 +448,7 @@ export function LocationFields({
 
       {/* SEÇÃO DE GEOLOCALIZAÇÃO E MAPA */}
       <div
-        className="field full"
-        style={{
-          marginTop: "10px",
-          padding: "16px",
-          borderRadius: "8px",
-          background: "#faf8f4",
-          border: "1px solid var(--line)",
-        }}
+        className="field full location-section"
       >
         <div style={{ marginBottom: "12px" }}>
           <span style={{ fontWeight: 600, display: "block", marginBottom: "4px" }}>
@@ -505,24 +498,7 @@ export function LocationFields({
         {/* Mensagem de Feedback */}
         {geoMensagem && (
           <div
-            style={{
-              padding: "6px 10px",
-              borderRadius: "4px",
-              marginBottom: "10px",
-              fontSize: "0.82rem",
-              background:
-                geoMensagem.tipo === "sucesso"
-                  ? "#e8f5e9"
-                  : geoMensagem.tipo === "erro"
-                  ? "#ffebee"
-                  : "#e3f2fd",
-              color:
-                geoMensagem.tipo === "sucesso"
-                  ? "#2e7d32"
-                  : geoMensagem.tipo === "erro"
-                  ? "#c62828"
-                  : "#1565c0",
-            }}
+            className={`geo-message ${geoMensagem.tipo}`}
           >
             {geoMensagem.texto}
           </div>

@@ -1,4 +1,5 @@
 import { Brand } from "./Brand";
+import { ThemeToggle } from "./ThemeToggle";
 
 export function PublicHeader() {
   return (
@@ -39,6 +40,7 @@ export function PublicHeader() {
           </div>
         </details>
       </nav>
+      <ThemeToggle />
       <a className="button secondary admin-button" href="/login">
         Acesso administrativo
       </a>
