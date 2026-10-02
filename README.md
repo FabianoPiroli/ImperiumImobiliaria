@@ -13,9 +13,10 @@ npm run setup
 ```
 
 Esse comando irá automaticamente:
-1. Instalar todas as dependências do `backend`.
-2. Gerar o cliente do Prisma (`prisma generate`).
-3. Instalar todas as dependências do `frontend`.
+1. Instalar as dependências da raiz do projeto.
+2. Instalar todas as dependências do `backend`.
+3. Gerar o cliente do Prisma (`prisma generate`).
+4. Instalar todas as dependências do `frontend`.
 
 ---
 
@@ -24,6 +25,7 @@ Esse comando irá automaticamente:
 | Comando | Descrição |
 | --- | --- |
 | `npm run setup` | Instala dependências do backend e frontend de uma só vez |
+| `npm run dev` | Inicia backend e frontend simultaneamente em modo de desenvolvimento |
 | `npm run dev:backend` | Inicia o backend em modo de desenvolvimento |
 | `npm run dev:frontend` | Inicia o frontend em modo de desenvolvimento |
 | `npm run build` | Compila o backend e o frontend |
