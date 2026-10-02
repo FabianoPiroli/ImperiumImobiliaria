@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import { login } from "@/src/lib/api";
 import { Brand } from "@/src/components/Brand";
+import { ThemeToggle } from "@/src/components/ThemeToggle";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("admin@imperium.com");
@@ -33,9 +34,12 @@ export default function LoginPage() {
   return (
     <main className="login shell">
       <form className="panel" onSubmit={submit}>
-        <a className="brand" href="/">
-          <Brand />
-        </a>
+        <div className="login-header">
+          <a className="brand" href="/">
+            <Brand />
+          </a>
+          <ThemeToggle />
+        </div>
         <h1>Entrar no painel</h1>
         <p className="eyebrow">Área exclusiva da equipe</p>
         <div className="field">
