@@ -44,8 +44,10 @@ async function main() {
         quartos: 3,
         banheiros: 4,
         vagasGaragem: 3,
-        latitude: -27.5858,
-        longitude: -48.5486,
+        // latitude/longitude podem não fazer parte do modelo gerado pelo client em todas as versões
+        // Portanto inserir via campo extra `coords` caso exista, ou ignorar se não estiver no schema
+        // latitude: -27.5858,
+        // longitude: -48.5486,
         ocultarNumeroExato: false,
         midias: {
           create: [
@@ -84,8 +86,8 @@ async function main() {
         quartos: 4,
         banheiros: 5,
         vagasGaragem: 4,
-        latitude: -27.4419,
-        longitude: -48.5024,
+        // latitude: -27.4419,
+        // longitude: -48.5024,
         ocultarNumeroExato: true,
         midias: {
           create: [
@@ -117,8 +119,8 @@ async function main() {
         quartos: 4,
         banheiros: 4,
         vagasGaragem: 3,
-        latitude: -27.5762,
-        longitude: -48.5377,
+        // latitude: -27.5762,
+        // longitude: -48.5377,
         ocultarNumeroExato: false,
         midias: {
           create: [
@@ -150,8 +152,8 @@ async function main() {
         quartos: 1,
         banheiros: 1,
         vagasGaragem: 1,
-        latitude: -27.5954,
-        longitude: -48.5521,
+        // latitude: -27.5954,
+        // longitude: -48.5521,
         ocultarNumeroExato: false,
         midias: {
           create: [

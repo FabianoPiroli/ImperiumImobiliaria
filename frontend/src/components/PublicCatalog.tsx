@@ -97,20 +97,20 @@ export function PublicCatalog({
                       e.preventDefault();
                       toggleFavorito(imovel.id);
                     }}
-                    className="favorite-toggle"
+                    className={`favorite-toggle transition-colors duration-200 ${favoritos.includes(imovel.id) ? 'text-red-600' : 'text-white'}`}
                     style={{
                       position: "absolute",
                       top: 8,
                       right: 8,
-                      background: "transparent",
-                      border: "none",
+                      background: "rgba(0,0,0,0.35)",
+                      borderRadius: 8,
                       padding: 6,
                       display: "inline-flex",
                       alignItems: "center",
                       justifyContent: "center",
                     }}
                   >
-                    <Heart size={18} fill={favoritos.includes(imovel.id) ? "currentColor" : "none"} />
+                    <Heart size={20} className={`transform transition-transform ${favoritos.includes(imovel.id) ? 'scale-105' : 'scale-100'}`} fill={favoritos.includes(imovel.id) ? 'currentColor' : 'none'} />
                   </button>
                 </div>
                 <div className="public-property-content">

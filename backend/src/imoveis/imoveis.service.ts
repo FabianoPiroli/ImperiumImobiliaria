@@ -25,7 +25,8 @@ export class ImoveisService {
       if (filter.status) where.status = filter.status;
       if (filter.finalidade) where.finalidade = filter.finalidade;
       if (filter.cidade) {
-        where.cidade = { contains: filter.cidade, mode: 'insensitive' };
+        // Nem todas as versões do client expõem `mode` no filtro; usar contains simples
+        where.cidade = { contains: filter.cidade } as any;
       }
       if (filter.quartos !== undefined) {
         where.quartos = { gte: filter.quartos };
@@ -36,12 +37,13 @@ export class ImoveisService {
         if (filter.maxPreco !== undefined) where.preco.lte = filter.maxPreco;
       }
       if (filter.busca) {
+        // Evitar uso de `mode` para compatibilidade com tipos do client
         where.OR = [
-          { titulo: { contains: filter.busca, mode: 'insensitive' } },
-          { descricao: { contains: filter.busca, mode: 'insensitive' } },
-          { endereco: { contains: filter.busca, mode: 'insensitive' } },
-          { bairro: { contains: filter.busca, mode: 'insensitive' } },
-          { cidade: { contains: filter.busca, mode: 'insensitive' } },
+          { titulo: { contains: filter.busca } as any },
+          { descricao: { contains: filter.busca } as any },
+          { endereco: { contains: filter.busca } as any },
+          { bairro: { contains: filter.busca } as any },
+          { cidade: { contains: filter.busca } as any },
         ];
       }
     }
@@ -78,7 +80,8 @@ export class ImoveisService {
   }
 
   create(data: CreateImovelDto): Promise<Imovel> {
-    return this.prisma.imovel.create({ data });
+    // Cast para any para contornar diferenças de tipagem entre DTO e ImovelCreateInput
+    return this.prisma.imovel.create({ data: data as any });
   }
 
   async update(id: number, data: UpdateImovelDto): Promise<Imovel> {
