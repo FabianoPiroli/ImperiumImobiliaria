@@ -28,7 +28,7 @@ export default async function AlugarPage({
             </p>
           </div>
           <PublicCatalog
-            finalidade="aluguel"
+            finalidade="locacao"
             categoria={filters.tipo}
             precoMax={filters.precoMax ? Number(filters.precoMax) : undefined}
             estado={filters.estado}

@@ -33,7 +33,7 @@ export function FeaturedProperty() {
           <span>
             Código {imovel.codigo} · {imovel.cidade} · R${" "}
             {imovel.preco.toLocaleString("pt-BR")}
-            {imovel.finalidade === "aluguel" && "/mês"}
+            {imovel.finalidade === "locacao" && "/mês"}
           </span>
         ) : (
           <span>Cadastre o primeiro anúncio no painel administrativo.</span>

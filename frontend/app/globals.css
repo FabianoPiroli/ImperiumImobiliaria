@@ -135,6 +135,8 @@ h1, h2, h3 { font-family: var(--font-display), serif; }
 .public-property-card { height: 100%; transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease; }
 .property-card-link:hover .public-property-card { border-color: var(--green); box-shadow: 0 16px 30px rgba(23,32,29,.1); transform: translateY(-3px); }
 .public-property-content { display: flex; flex-direction: column; }
+.public-property-content .property-meta { margin-top: auto; }
+.property-actions { padding-top: 18px; }
 .public-property-content .text-link { margin-top: auto; padding-top: 24px; }
 .media-carousel { width: 100%; }
 .carousel-stage { position: relative; overflow: hidden; background: #315e50; }

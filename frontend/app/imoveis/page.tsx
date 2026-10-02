@@ -132,7 +132,7 @@ export default function ImoveisPage() {
                         </span>
                       </span>
                     </div>
-                    <div style={{ display: "flex", gap: 8, marginTop: "auto", paddingTop: 18 }}>
+                    <div className="property-actions" style={{ display: "flex", gap: 8 }}>
                       <a
                         className="button secondary"
                         href={`/imoveis/${imovel.id}`}

@@ -74,7 +74,7 @@ export default function AnuncioPage({
         <main className="property-detail">
           <a
             className="text-link"
-            href={imovel.finalidade === "aluguel" ? "/alugar" : "/comprar"}
+            href={imovel.finalidade === "locacao" ? "/alugar" : "/comprar"}
           >
             ← Voltar para anúncios
           </a>
@@ -88,13 +88,13 @@ export default function AnuncioPage({
             <section className="detail-copy">
               <span className="eyebrow">
                 Código {imovel.codigo} ·{" "}
-                {imovel.finalidade === "aluguel" ? "Para alugar" : "À venda"} ·{" "}
+                {imovel.finalidade === "locacao" ? "Para alugar" : "À venda"} ·{" "}
                 {imovel.cidade}
               </span>
               <h1>{imovel.titulo}</h1>
               <p className="detail-price">
                 R$ {imovel.preco.toLocaleString("pt-BR")}{" "}
-                {imovel.finalidade === "aluguel" && <small>/mês</small>}
+                {imovel.finalidade === "locacao" && <small>/mês</small>}
               </p>
               <p>{imovel.descricao}</p>
               <div className="detail-specs">

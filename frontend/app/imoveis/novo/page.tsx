@@ -85,17 +85,19 @@ export default function NovoImovelPage() {
             <span>Finalidade</span>
             <select name="finalidade" defaultValue="venda">
               <option value="venda">Comprar</option>
-              <option value="aluguel">Alugar</option>
+              <option value="locacao">Alugar</option>
             </select>
           </label>
           <label className="field">
             <span>Tipo</span>
-            <select name="tipo" defaultValue="Casa">
-              <option>Casa</option>
-              <option>Apartamento</option>
-              <option>Terreno / lote</option>
-              <option>Prédio comercial</option>
-              <option>Terreno rural / sítio / fazenda / chácara</option>
+            <select name="tipo" defaultValue="casa">
+              <option value="casa">Casa</option>
+              <option value="apartamento">Apartamento</option>
+              <option value="terreno">Terreno / lote</option>
+              <option value="comercial">Prédio comercial</option>
+              <option value="outro">
+                Terreno rural / sítio / fazenda / chácara
+              </option>
             </select>
           </label>
           <LocationFields initialEstado="SC" />
