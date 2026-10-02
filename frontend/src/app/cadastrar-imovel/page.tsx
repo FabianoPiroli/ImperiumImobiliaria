@@ -70,107 +70,150 @@ export default function CadastrarImovelPage() {
       <PublicHeader />
       <main className="page py-8">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto bg-white shadow-sm rounded-lg overflow-hidden">
-            <div className="px-6 py-5 border-b">
+          <div className="bg-white shadow-md rounded-xl p-8 max-w-3xl mx-auto my-8">
+            <div className="mb-6">
               <h1 className="text-2xl font-semibold">Cadastrar imóvel</h1>
               <p className="text-sm text-gray-600">Os anúncios enviados ficarão com status <strong>PENDENTE</strong> para aprovação administrativa.</p>
             </div>
-            <form onSubmit={handleSubmit} className="p-6 grid grid-cols-1 gap-6">
-              <section>
-                <h2 className="text-lg font-medium mb-3">Informações Básicas</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <label className="flex flex-col">
-                    <span className="text-sm font-medium">Título do anúncio</span>
-                    <input className="input" value={titulo} onChange={(e) => setTitulo(e.target.value)} required placeholder="Ex: Apartamento espaçoso com vista" />
-                  </label>
-                  <label className="flex flex-col">
-                    <span className="text-sm font-medium">Tipo</span>
-                    <select className="input" value={tipo} onChange={(e) => setTipo(e.target.value)} required>
-                      <option value="apartamento">Apartamento</option>
-                      <option value="casa">Casa</option>
-                      <option value="terreno">Terreno</option>
-                      <option value="comercial">Comercial</option>
-                      <option value="cobertura">Cobertura</option>
-                      <option value="outro">Outro</option>
-                    </select>
-                  </label>
-                  <label className="flex flex-col">
-                    <span className="text-sm font-medium">Finalidade</span>
-                    <select className="input" value={finalidade} onChange={(e) => setFinalidade(e.target.value)}>
-                      <option value="venda">Venda</option>
-                      <option value="locacao">Aluguel</option>
-                      <option value="ambos">Ambos</option>
-                    </select>
-                  </label>
-                  <label className="flex flex-col">
-                    <span className="text-sm font-medium">Preço (R$)</span>
-                    <input className="input" value={preco} onChange={(e) => setPreco(e.target.value)} required inputMode="numeric" placeholder="Ex: 350000" />
-                  </label>
-                </div>
-              </section>
 
-              <section>
-                <h2 className="text-lg font-medium mb-3">Detalhes do Imóvel</h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <label className="flex flex-col">
-                    <span className="text-sm font-medium">Área (m²)</span>
-                    <input className="input" value={area} onChange={(e) => setArea(e.target.value)} placeholder="Ex: 120" />
-                  </label>
-                  <label className="flex flex-col">
-                    <span className="text-sm font-medium">Quartos</span>
-                    <input className="input" type="number" min={0} value={quartos} onChange={(e) => setQuartos(Number(e.target.value))} />
-                  </label>
-                  <label className="flex flex-col">
-                    <span className="text-sm font-medium">Banheiros</span>
-                    <input className="input" type="number" min={0} value={banheiros} onChange={(e) => setBanheiros(Number(e.target.value))} />
-                  </label>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                  <label className="flex flex-col">
-                    <span className="text-sm font-medium">Vagas de garagem</span>
-                    <input className="input" type="number" min={0} value={vagas} onChange={(e) => setVagas(Number(e.target.value))} />
-                  </label>
-                  <label className="flex flex-col">
-                    <span className="text-sm font-medium">Endereço / Bairro</span>
-                    <input className="input" value={endereco} onChange={(e) => setEndereco(e.target.value)} placeholder="Rua, número - Bairro" />
-                  </label>
-                </div>
-              </section>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Linha 1: Título */}
+              <div>
+                <label className="block text-sm font-medium mb-2">Título do anúncio</label>
+                <input
+                  value={titulo}
+                  onChange={(e) => setTitulo(e.target.value)}
+                  required
+                  placeholder="Ex: Apartamento espaçoso com vista"
+                  className="w-full border border-gray-300 rounded-md bg-white p-3 focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none"
+                />
+              </div>
 
-              <section>
-                <h2 className="text-lg font-medium mb-3">Descrição e Contato</h2>
-                <label className="flex flex-col">
-                  <span className="text-sm font-medium">Descrição completa</span>
-                  <textarea className="textarea" value={descricao} onChange={(e) => setDescricao(e.target.value)} placeholder="Descreva o imóvel, diferenciais e condições" />
-                </label>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-                  <label className="flex flex-col">
-                    <span className="text-sm font-medium">Nome do contato</span>
-                    <input className="input" value={contatoNome} onChange={(e) => setContatoNome(e.target.value)} placeholder="Nome para contato" />
-                  </label>
-                  <label className="flex flex-col">
-                    <span className="text-sm font-medium">Telefone</span>
-                    <input className="input" value={contatoTelefone} onChange={(e) => setContatoTelefone(e.target.value)} placeholder="(XX) XXXXX-XXXX" />
-                  </label>
-                  <label className="flex flex-col">
-                    <span className="text-sm font-medium">E-mail</span>
-                    <input className="input" type="email" value={contatoEmail} onChange={(e) => setContatoEmail(e.target.value)} placeholder="contato@exemplo.com" />
-                  </label>
+              {/* Linha 2: Preço, Tipo, Finalidade */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-sm font-medium mb-2">Preço (R$)</label>
+                  <input
+                    className="w-full border border-gray-300 rounded-md bg-white p-3 focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none"
+                    value={preco}
+                    onChange={(e) => setPreco(e.target.value)}
+                    required
+                    inputMode="numeric"
+                    placeholder="Ex: 350000"
+                  />
                 </div>
-              </section>
+                <div>
+                  <label className="block text-sm font-medium mb-2">Tipo</label>
+                  <select
+                    className="w-full border border-gray-300 rounded-md bg-white p-3 focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none"
+                    value={tipo}
+                    onChange={(e) => setTipo(e.target.value)}
+                  >
+                    <option value="apartamento">Apartamento</option>
+                    <option value="casa">Casa</option>
+                    <option value="terreno">Terreno</option>
+                    <option value="comercial">Comercial</option>
+                    <option value="cobertura">Cobertura</option>
+                    <option value="outro">Outro</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">Finalidade</label>
+                  <select
+                    className="w-full border border-gray-300 rounded-md bg-white p-3 focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none"
+                    value={finalidade}
+                    onChange={(e) => setFinalidade(e.target.value)}
+                  >
+                    <option value="venda">Venda</option>
+                    <option value="locacao">Aluguel</option>
+                    <option value="ambos">Ambos</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Linha 3: Área, Quartos, Banheiros, Vagas */}
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div>
+                  <label className="block text-sm font-medium mb-2">Área (m²)</label>
+                  <input
+                    className="w-full border border-gray-300 rounded-md bg-white p-3 focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none"
+                    value={area}
+                    onChange={(e) => setArea(e.target.value)}
+                    placeholder="Ex: 120"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">Quartos</label>
+                  <input
+                    type="number"
+                    min={0}
+                    className="w-full border border-gray-300 rounded-md bg-white p-3 focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none"
+                    value={quartos}
+                    onChange={(e) => setQuartos(Number(e.target.value))}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">Banheiros</label>
+                  <input
+                    type="number"
+                    min={0}
+                    className="w-full border border-gray-300 rounded-md bg-white p-3 focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none"
+                    value={banheiros}
+                    onChange={(e) => setBanheiros(Number(e.target.value))}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">Vagas</label>
+                  <input
+                    type="number"
+                    min={0}
+                    className="w-full border border-gray-300 rounded-md bg-white p-3 focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none"
+                    value={vagas}
+                    onChange={(e) => setVagas(Number(e.target.value))}
+                  />
+                </div>
+              </div>
+
+              {/* Linha 4: Descrição */}
+              <div>
+                <label className="block text-sm font-medium mb-2">Descrição completa</label>
+                <textarea
+                  rows={4}
+                  className="w-full border border-gray-300 rounded-md bg-white p-3 focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none"
+                  value={descricao}
+                  onChange={(e) => setDescricao(e.target.value)}
+                  placeholder="Descreva o imóvel, diferenciais e condições"
+                />
+              </div>
+
+              {/* Linha 5: Contato */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-sm font-medium mb-2">Nome do contato</label>
+                  <input className="w-full border border-gray-300 rounded-md bg-white p-3 focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none" value={contatoNome} onChange={(e) => setContatoNome(e.target.value)} placeholder="Nome para contato" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">Telefone</label>
+                  <input className="w-full border border-gray-300 rounded-md bg-white p-3 focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none" value={contatoTelefone} onChange={(e) => setContatoTelefone(e.target.value)} placeholder="(XX) XXXXX-XXXX" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">E-mail</label>
+                  <input className="w-full border border-gray-300 rounded-md bg-white p-3 focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none" type="email" value={contatoEmail} onChange={(e) => setContatoEmail(e.target.value)} placeholder="contato@exemplo.com" />
+                </div>
+              </div>
 
               <div className="flex items-center justify-between mt-2">
                 <label className="flex items-center gap-2 text-sm">
-                  <input type="checkbox" checked={ocultarNumero} onChange={(e) => setOcultarNumero(e.target.checked)} />
+                  <input type="checkbox" checked={ocultarNumero} onChange={(e) => setOcultarNumero(e.target.checked)} className="h-4 w-4 text-emerald-600" />
                   Ocultar número exato no endereço
                 </label>
                 <div className="flex items-center gap-3">
-                  <Link href="/" className="button secondary">Cancelar</Link>
-                  <button type="submit" className="button bg-primary text-white">Enviar anúncio (PENDENTE)</button>
+                  <Link href="/" className="inline-block px-4 py-2 rounded-md border border-gray-200 text-sm">Cancelar</Link>
+                  <button type="submit" className="bg-emerald-700 text-white font-semibold py-3 px-6 rounded-lg hover:bg-emerald-800 transition">Enviar anúncio (PENDENTE)</button>
                 </div>
               </div>
             </form>
-            {mensagem && <div className="p-4 border-t text-sm">{mensagem}</div>}
+            {mensagem && <div className="p-4 border-t text-sm mt-4">{mensagem}</div>}
           </div>
         </div>
       </main>
