@@ -17,6 +17,7 @@ type Imovel = {
   cidade: string;
   bairro: string;
   endereco: string;
+  cep: string;
   preco: number;
   quartos: number;
   banheiros: number;
@@ -70,6 +71,7 @@ export default function EditarImovelPage({
         cidade: form.get("cidade"),
         bairro: form.get("bairro"),
         endereco: form.get("endereco"),
+        cep: form.get("cep"),
         preco: Number(form.get("preco")),
         quartos: Number(form.get("quartos")),
         banheiros: Number(form.get("banheiros")),
@@ -164,6 +166,7 @@ export default function EditarImovelPage({
             initialCidade={imovel.cidade}
             initialBairro={imovel.bairro}
             initialEndereco={imovel.endereco}
+            initialCep={imovel.cep}
             initialLatitude={imovel.latitude}
             initialLongitude={imovel.longitude}
             initialOcultarNumeroExato={imovel.ocultarNumeroExato}

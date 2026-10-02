@@ -45,6 +45,7 @@ interface LocationFieldsProps {
   initialCidade?: string;
   initialBairro?: string;
   initialEndereco?: string;
+  initialCep?: string;
   initialLatitude?: number | null;
   initialLongitude?: number | null;
   initialOcultarNumeroExato?: boolean;
@@ -55,11 +56,12 @@ export function LocationFields({
   initialCidade = "",
   initialBairro = "",
   initialEndereco = "",
+  initialCep = "",
   initialLatitude = null,
   initialLongitude = null,
   initialOcultarNumeroExato = false,
 }: LocationFieldsProps) {
-  const [cep, setCep] = useState("");
+  const [cep, setCep] = useState(initialCep);
   const [estados, setEstados] = useState<EstadoIBGE[]>([]);
   const [cidades, setCidades] = useState<CidadeIBGE[]>([]);
 
@@ -102,6 +104,10 @@ export function LocationFields({
   useEffect(() => {
     if (initialEndereco) setEndereco(initialEndereco);
   }, [initialEndereco]);
+
+  useEffect(() => {
+    setCep(initialCep);
+  }, [initialCep]);
 
   useEffect(() => {
     if (typeof initialLatitude === "number") setLatitude(initialLatitude);
@@ -324,6 +330,7 @@ export function LocationFields({
         </span>
         <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
           <input
+            name="cep"
             type="text"
             placeholder="00000-000"
             value={cep}

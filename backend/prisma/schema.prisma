@@ -25,6 +25,7 @@ model Imovel {
   cidade    String
   bairro    String   @default("")
   endereco  String
+  cep       String   @default("")
   preco     Float
   status    String   @default("disponivel")
   finalidade String  @default("venda")

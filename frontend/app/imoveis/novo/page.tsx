@@ -29,6 +29,7 @@ export default function NovoImovelPage() {
         cidade: form.get("cidade"),
         bairro: form.get("bairro"),
         endereco: form.get("endereco"),
+        cep: form.get("cep"),
         preco: Number(form.get("preco")),
         quartos: Number(form.get("quartos")),
         banheiros: Number(form.get("banheiros")),
