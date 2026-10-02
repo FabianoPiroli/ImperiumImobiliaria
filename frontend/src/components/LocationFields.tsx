@@ -118,9 +118,7 @@ export function LocationFields({
   // Carregar Estados do IBGE
   useEffect(() => {
     let active = true;
-    fetch(
-      "https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome"
-    )
+    fetch("/api/ibge/estados")
       .then((res) => {
         if (!res.ok) throw new Error("Erro ao buscar estados");
         return res.json();
@@ -143,9 +141,7 @@ export function LocationFields({
       return;
     }
     let active = true;
-    fetch(
-      `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${estado}/municipios`
-    )
+    fetch(`/api/ibge/estados/${estado}/municipios`)
       .then((res) => {
         if (!res.ok) throw new Error("Erro ao buscar cidades");
         return res.json();
