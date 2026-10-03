@@ -85,7 +85,8 @@ export default function CadastrarImovelPage() {
                   onChange={(e) => setTitulo(e.target.value)}
                   required
                   placeholder="Ex: Apartamento espaçoso com vista"
-                  className="w-full border border-gray-300 rounded-md bg-white p-3 focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none"
+                  className="border border-gray-400 bg-white rounded p-2 text-black w-full block focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none"
+                  style={{ border: '1px solid #ccc', padding: '8px', borderRadius: '4px', background: '#fff' }}
                 />
               </div>
 
@@ -94,7 +95,8 @@ export default function CadastrarImovelPage() {
                 <div>
                   <label className="block text-sm font-medium mb-2">Preço (R$)</label>
                   <input
-                    className="w-full border border-gray-300 rounded-md bg-white p-3 focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none"
+                    className="border border-gray-400 bg-white rounded p-2 text-black w-full block focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none"
+                    style={{ border: '1px solid #ccc', padding: '8px', borderRadius: '4px', background: '#fff' }}
                     value={preco}
                     onChange={(e) => setPreco(e.target.value)}
                     required
@@ -105,7 +107,8 @@ export default function CadastrarImovelPage() {
                 <div>
                   <label className="block text-sm font-medium mb-2">Tipo</label>
                   <select
-                    className="w-full border border-gray-300 rounded-md bg-white p-3 focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none"
+                    className="border border-gray-400 bg-white rounded p-2 text-black w-full block focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none"
+                    style={{ border: '1px solid #ccc', padding: '8px', borderRadius: '4px', background: '#fff' }}
                     value={tipo}
                     onChange={(e) => setTipo(e.target.value)}
                   >
@@ -120,7 +123,8 @@ export default function CadastrarImovelPage() {
                 <div>
                   <label className="block text-sm font-medium mb-2">Finalidade</label>
                   <select
-                    className="w-full border border-gray-300 rounded-md bg-white p-3 focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none"
+                    className="border border-gray-400 bg-white rounded p-2 text-black w-full block focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none"
+                    style={{ border: '1px solid #ccc', padding: '8px', borderRadius: '4px', background: '#fff' }}
                     value={finalidade}
                     onChange={(e) => setFinalidade(e.target.value)}
                   >
@@ -136,7 +140,8 @@ export default function CadastrarImovelPage() {
                 <div>
                   <label className="block text-sm font-medium mb-2">Área (m²)</label>
                   <input
-                    className="w-full border border-gray-300 rounded-md bg-white p-3 focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none"
+                    className="border border-gray-400 bg-white rounded p-2 text-black w-full block focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none"
+                    style={{ border: '1px solid #ccc', padding: '8px', borderRadius: '4px', background: '#fff' }}
                     value={area}
                     onChange={(e) => setArea(e.target.value)}
                     placeholder="Ex: 120"
@@ -147,7 +152,8 @@ export default function CadastrarImovelPage() {
                   <input
                     type="number"
                     min={0}
-                    className="w-full border border-gray-300 rounded-md bg-white p-3 focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none"
+                    className="border border-gray-400 bg-white rounded p-2 text-black w-full block focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none"
+                    style={{ border: '1px solid #ccc', padding: '8px', borderRadius: '4px', background: '#fff' }}
                     value={quartos}
                     onChange={(e) => setQuartos(Number(e.target.value))}
                   />
@@ -157,7 +163,8 @@ export default function CadastrarImovelPage() {
                   <input
                     type="number"
                     min={0}
-                    className="w-full border border-gray-300 rounded-md bg-white p-3 focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none"
+                    className="border border-gray-400 bg-white rounded p-2 text-black w-full block focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none"
+                    style={{ border: '1px solid #ccc', padding: '8px', borderRadius: '4px', background: '#fff' }}
                     value={banheiros}
                     onChange={(e) => setBanheiros(Number(e.target.value))}
                   />
@@ -167,7 +174,8 @@ export default function CadastrarImovelPage() {
                   <input
                     type="number"
                     min={0}
-                    className="w-full border border-gray-300 rounded-md bg-white p-3 focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none"
+                    className="border border-gray-400 bg-white rounded p-2 text-black w-full block focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none"
+                    style={{ border: '1px solid #ccc', padding: '8px', borderRadius: '4px', background: '#fff' }}
                     value={vagas}
                     onChange={(e) => setVagas(Number(e.target.value))}
                   />
@@ -179,7 +187,8 @@ export default function CadastrarImovelPage() {
                 <label className="block text-sm font-medium mb-2">Descrição completa</label>
                 <textarea
                   rows={4}
-                  className="w-full border border-gray-300 rounded-md bg-white p-3 focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none"
+                  className="border border-gray-400 bg-white rounded p-2 text-black w-full block focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none"
+                  style={{ border: '1px solid #ccc', padding: '8px', borderRadius: '4px', background: '#fff' }}
                   value={descricao}
                   onChange={(e) => setDescricao(e.target.value)}
                   placeholder="Descreva o imóvel, diferenciais e condições"
@@ -190,15 +199,15 @@ export default function CadastrarImovelPage() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                   <label className="block text-sm font-medium mb-2">Nome do contato</label>
-                  <input className="w-full border border-gray-300 rounded-md bg-white p-3 focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none" value={contatoNome} onChange={(e) => setContatoNome(e.target.value)} placeholder="Nome para contato" />
+                  <input className="border border-gray-400 bg-white rounded p-2 text-black w-full block focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none" style={{ border: '1px solid #ccc', padding: '8px', borderRadius: '4px', background: '#fff' }} value={contatoNome} onChange={(e) => setContatoNome(e.target.value)} placeholder="Nome para contato" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-2">Telefone</label>
-                  <input className="w-full border border-gray-300 rounded-md bg-white p-3 focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none" value={contatoTelefone} onChange={(e) => setContatoTelefone(e.target.value)} placeholder="(XX) XXXXX-XXXX" />
+                  <input className="border border-gray-400 bg-white rounded p-2 text-black w-full block focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none" style={{ border: '1px solid #ccc', padding: '8px', borderRadius: '4px', background: '#fff' }} value={contatoTelefone} onChange={(e) => setContatoTelefone(e.target.value)} placeholder="(XX) XXXXX-XXXX" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-2">E-mail</label>
-                  <input className="w-full border border-gray-300 rounded-md bg-white p-3 focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none" type="email" value={contatoEmail} onChange={(e) => setContatoEmail(e.target.value)} placeholder="contato@exemplo.com" />
+                  <input className="border border-gray-400 bg-white rounded p-2 text-black w-full block focus:ring-2 focus:ring-emerald-600 focus:border-transparent outline-none" style={{ border: '1px solid #ccc', padding: '8px', borderRadius: '4px', background: '#fff' }} type="email" value={contatoEmail} onChange={(e) => setContatoEmail(e.target.value)} placeholder="contato@exemplo.com" />
                 </div>
               </div>
 
