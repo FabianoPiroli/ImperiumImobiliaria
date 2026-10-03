@@ -53,7 +53,7 @@ export default function CadastrarImovelPage() {
         vagasGaragem: Number(vagas || 0),
         ocultarNumeroExato: Boolean(ocultarNumero),
         status: "pendente",
-      } as any);
+      });
 
       setMensagem("Anúncio enviado com sucesso! Aguardando aprovação.");
       setTitulo("");
@@ -67,8 +67,10 @@ export default function CadastrarImovelPage() {
       setContatoTelefone("");
       setContatoEmail("");
       setOcultarNumero(false);
-    } catch (err: any) {
-      setMensagem(err?.message ?? "Erro ao enviar o anúncio.");
+    } catch (err: unknown) {
+      setMensagem(
+        err instanceof Error ? err.message : "Erro ao enviar o anúncio.",
+      );
     }
   }
 
