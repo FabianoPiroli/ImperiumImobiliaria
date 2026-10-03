@@ -38,6 +38,7 @@ model Imovel {
   latitude     Float?
   longitude    Float?
   ocultarNumeroExato   Boolean @default(false)
+  favoritos Favorite[]
 }
 
 model User {
@@ -48,6 +49,45 @@ model User {
   role      String   @default("admin")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  favoritos Favorite[]
+  solicitacoes PropertyRequest[]
+}
+
+model Favorite {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  imovelId  Int
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  imovel    Imovel   @relation(fields: [imovelId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, imovelId])
+  @@index([userId])
+  @@index([imovelId])
+}
+
+model PropertyRequest {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  titulo      String
+  tipo        String
+  finalidade  String   @default("venda")
+  estado      String   @default("")
+  cidade      String
+  bairro      String   @default("")
+  preco       Float?
+  descricao   String
+  contatoEmail String
+  contatoTelefone String
+  fotoUrl     String?
+  fotoPublicId String?
+  status      String   @default("pendente")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([status])
 }
 
 model Midia {

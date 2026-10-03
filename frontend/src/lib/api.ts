@@ -14,12 +14,19 @@ function authHeaders(): Record<string, string> {
 }
 
 async function parseResponse(res: Response) {
-  if (!res.ok)
+  if (!res.ok) {
+    const errorBody = await res.json().catch(() => null);
     throw new Error(
-      (await res.json().catch(() => null))?.message ??
-        "Não foi possível concluir a operação.",
+      errorBody?.message ?? "Não foi possível concluir a operação.",
     );
-  return res.json();
+  }
+  if (res.status === 204) return null;
+  const text = await res.text();
+  try {
+    return text ? JSON.parse(text) : null;
+  } catch {
+    return text;
+  }
 }
 
 export async function getImoveis() {
@@ -64,6 +71,79 @@ export async function login(email: string, senha: string) {
       body: JSON.stringify({ email, senha }),
     }),
   );
+}
+export async function registerClient(nome: string, email: string, senha: string) {
+  return parseResponse(
+    await fetch(`${API_URL}/auth/clientes`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nome, email, senha }),
+    }),
+  );
+}
+export async function getClientFavorites() {
+  return parseResponse(await fetch(`${API_URL}/cliente/favoritos`, { headers: authHeaders() }));
+}
+export async function addClientFavorite(imovelId: number) {
+  return parseResponse(await fetch(`${API_URL}/cliente/favoritos/${imovelId}`, { method: "POST", headers: authHeaders() }));
+}
+export async function removeClientFavorite(imovelId: number) {
+  return parseResponse(await fetch(`${API_URL}/cliente/favoritos/${imovelId}`, { method: "DELETE", headers: authHeaders() }));
+}
+export async function getClientRequests() {
+  return parseResponse(await fetch(`${API_URL}/cliente/solicitacoes`, { headers: authHeaders() }));
+}
+export async function getClientRequest(id: number) {
+  return parseResponse(await fetch(`${API_URL}/cliente/solicitacoes/${id}`, { headers: authHeaders() }));
+}
+export async function createClientRequest(data: unknown) {
+  return parseResponse(await fetch(`${API_URL}/cliente/solicitacoes`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...authHeaders() },
+    body: JSON.stringify(data),
+  }));
+}
+export async function updateClientRequest(id: number, data: unknown) {
+  return parseResponse(await fetch(`${API_URL}/cliente/solicitacoes/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json", ...authHeaders() },
+    body: JSON.stringify(data),
+  }));
+}
+export async function deleteClientRequest(id: number) {
+  return parseResponse(await fetch(`${API_URL}/cliente/solicitacoes/${id}`, {
+    method: "DELETE",
+    headers: authHeaders(),
+  }));
+}
+export async function uploadClientRequestPhoto(id: number, file: File) {
+  const form = new FormData();
+  form.append("foto", file);
+  return parseResponse(await fetch(`${API_URL}/cliente/solicitacoes/${id}/foto`, {
+    method: "POST",
+    headers: authHeaders(),
+    body: form,
+  }));
+}
+export async function getAdminRequests() {
+  return parseResponse(await fetch(`${API_URL}/cliente/admin/solicitacoes`, { headers: authHeaders() }));
+}
+export async function getAdminRequest(id: number) {
+  return parseResponse(await fetch(`${API_URL}/cliente/admin/solicitacoes/${id}`, { headers: authHeaders() }));
+}
+export async function updateAdminRequest(id: number, data: string | Record<string, unknown>) {
+  const body = typeof data === "string" ? { status: data } : data;
+  return parseResponse(await fetch(`${API_URL}/cliente/admin/solicitacoes/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json", ...authHeaders() },
+    body: JSON.stringify(body),
+  }));
+}
+export async function deleteAdminRequest(id: number) {
+  return parseResponse(await fetch(`${API_URL}/cliente/admin/solicitacoes/${id}`, {
+    method: "DELETE",
+    headers: authHeaders(),
+  }));
 }
 export async function uploadMedia(id: number, arquivo: File) {
   const form = new FormData();

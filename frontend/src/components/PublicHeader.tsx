@@ -1,6 +1,6 @@
 import { Brand } from "./Brand";
-import Link from "next/link";
 import { ThemeToggle } from "./ThemeToggle";
+import { ClientAccess } from "./ClientAccess";
 
 export function PublicHeader() {
   return (
@@ -40,14 +40,10 @@ export function PublicHeader() {
             <a href="mailto:contato@imperiumimobiliaria.com.br">E-mail</a>
           </div>
         </details>
-        <Link href="/cadastrar-imovel" className="hover:text-gray-900">
-          Cadastrar Imóvel
-        </Link>
       </nav>
       <ThemeToggle />
-      <a className="button secondary admin-button" href="/login">
-        Acesso administrativo
-      </a>
+      <ClientAccess />
     </header>
   );
 }
+

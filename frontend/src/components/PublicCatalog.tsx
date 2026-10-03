@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { getImoveis, mediaUrl } from "@/src/lib/api";
+import { addClientFavorite, getClientFavorites, getImoveis, mediaUrl, removeClientFavorite } from "@/src/lib/api";
 import { Bed, Bath, Car, Heart } from "lucide-react";
 import { useCallback } from "react";
 type Imovel = {
@@ -52,11 +52,27 @@ export function PublicCatalog({
   );
   const [favoritos, setFavoritos] = useState<number[]>([]);
 
-  const toggleFavorito = useCallback((id: number) => {
-    setFavoritos((prev) =>
-      prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id],
-    );
+  useEffect(() => {
+    if (!localStorage.getItem("imperium_token")) return;
+    getClientFavorites()
+      .then((items) => setFavoritos(items.map((item: { imovelId: number }) => item.imovelId)))
+      .catch(() => undefined);
   }, []);
+
+  const toggleFavorito = useCallback(async (id: number) => {
+    if (!localStorage.getItem("imperium_token")) {
+      window.location.href = "/cliente/login?next=/comprar";
+      return;
+    }
+    const alreadyFavorite = favoritos.includes(id);
+    try {
+      if (alreadyFavorite) await removeClientFavorite(id);
+      else await addClientFavorite(id);
+      setFavoritos((prev) => alreadyFavorite ? prev.filter((p) => p !== id) : [...prev, id]);
+    } catch {
+      setErro("Não foi possível atualizar os favoritos.");
+    }
+  }, [favoritos]);
 
   return (
     <section className="public-listing">

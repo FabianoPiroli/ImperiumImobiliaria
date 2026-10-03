@@ -1,3 +1,7 @@
+## Equipe MasterCoding
+- Fabiano Piroli [github.com/FabianoPiroli]
+- Jorge Zastrow [github.com/jzastrowss-cpu]
+
 # Imperium Imobiliária
 
 O Imperium Imobiliária é uma aplicação full stack para cadastro, consulta, filtragem e gestão de imóveis. O sistema combina uma interface Next.js com uma API NestJS, autenticação JWT, upload de mídias no Cloudinary e persistência PostgreSQL mapeada pelo Prisma.
@@ -15,6 +19,9 @@ O Imperium Imobiliária é uma aplicação full stack para cadastro, consulta, f
 - Documentação da API com Swagger;
 - Testes unitários e testes E2E de segurança e CRUD;
 - Deploy do backend preparado para Vercel.
+
+## Vídeo de apresentação
+
 
 ## Arquitetura
 

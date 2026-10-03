@@ -59,9 +59,14 @@ export default function ImoveisPage() {
             <span className="eyebrow">Painel administrativo</span>
             <h1>Imóveis</h1>
           </div>
-          <a className="button" href="/imoveis/novo">
-            + Novo imóvel
-          </a>
+          <div className="admin-page-actions">
+            <a className="button secondary" href="/imoveis/solicitacoes">
+              Solicitações de clientes
+            </a>
+            <a className="button" href="/imoveis/novo">
+              + Novo imóvel
+            </a>
+          </div>
         </div>
         {erro ? (
           <div className="panel">{erro}</div>

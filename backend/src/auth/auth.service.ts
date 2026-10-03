@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException, Logger, OnModuleInit } from '@nestjs/common';
+import { ConflictException, Injectable, UnauthorizedException, Logger, OnModuleInit } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma/prisma.service';
 import * as bcrypt from 'bcryptjs';
@@ -20,6 +20,18 @@ export class AuthService implements OnModuleInit {
       throw new UnauthorizedException('E-mail ou senha inválidos.');
     }
     this.logger.log(`Login bem-sucedido para o usuário ID: ${user.id}`);
+    return {
+      accessToken: this.jwt.sign({ sub: user.id, email: user.email, role: user.role }),
+      user: { id: user.id, nome: user.nome, email: user.email, role: user.role },
+    };
+  }
+
+  async registerClient(nome: string, email: string, senha: string) {
+    const existing = await this.prisma.user.findUnique({ where: { email } });
+    if (existing) throw new ConflictException('Já existe uma conta com este e-mail.');
+    const user = await this.prisma.user.create({
+      data: { nome, email, senha: await bcrypt.hash(senha, 10), role: 'cliente' },
+    });
     return {
       accessToken: this.jwt.sign({ sub: user.id, email: user.email, role: user.role }),
       user: { id: user.id, nome: user.nome, email: user.email, role: user.role },

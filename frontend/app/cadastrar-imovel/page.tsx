@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { createImovel } from "@/src/lib/api";
+import { createClientRequest } from "@/src/lib/api";
 import Link from "next/link";
 import { PublicHeader } from "@/src/components/PublicHeader";
 
@@ -8,6 +8,8 @@ export default function CadastrarImovelAppPage() {
   const [titulo, setTitulo] = useState("");
   const [preco, setPreco] = useState("");
   const [tipo, setTipo] = useState("");
+  const [finalidade, setFinalidade] = useState("venda");
+  const [cidade, setCidade] = useState("");
   const [descricao, setDescricao] = useState("");
   const [mensagem, setMensagem] = useState("");
   const [contatoNome, setContatoNome] = useState("");
@@ -26,17 +28,24 @@ export default function CadastrarImovelAppPage() {
         ? `${descricao}\n\nContato:\n${contatoParts.join("\n")}`
         : descricao;
 
-      await createImovel({
+      if (!localStorage.getItem("imperium_token")) {
+        window.location.href = "/cliente/login?next=/cadastrar-imovel";
+        return;
+      }
+      await createClientRequest({
         titulo,
         preco: Number(preco || 0),
         tipo,
+        finalidade,
+        cidade,
         descricao: descricaoComContato,
-        status: "PENDENTE",
       });
       setMensagem("Anúncio enviado com sucesso. Status: PENDENTE");
       setTitulo("");
       setPreco("");
       setTipo("");
+      setFinalidade("venda");
+      setCidade("");
       setDescricao("");
       setContatoNome("");
       setContatoTelefone("");
@@ -68,6 +77,17 @@ export default function CadastrarImovelAppPage() {
           <label>
             Tipo
             <input value={tipo} onChange={(e) => setTipo(e.target.value)} required />
+          </label>
+          <label>
+            Finalidade
+            <select value={finalidade} onChange={(e) => setFinalidade(e.target.value)}>
+              <option value="venda">Venda</option>
+              <option value="locacao">Locação</option>
+            </select>
+          </label>
+          <label>
+            Cidade
+            <input value={cidade} onChange={(e) => setCidade(e.target.value)} required />
           </label>
           <label>
             Descrição

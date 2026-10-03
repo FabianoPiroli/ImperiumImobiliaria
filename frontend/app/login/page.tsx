@@ -1,11 +1,13 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { login } from "@/src/lib/api";
+import { login, registerClient } from "@/src/lib/api";
 import { Brand } from "@/src/components/Brand";
 import { ThemeToggle } from "@/src/components/ThemeToggle";
 
 export default function LoginPage() {
+  const [cadastro, setCadastro] = useState(false);
+  const [nome, setNome] = useState("");
   const [email, setEmail] = useState("admin@imperium.com");
   const [senha, setSenha] = useState("");
   const [erro, setErro] = useState("");
@@ -16,9 +18,12 @@ export default function LoginPage() {
     setErro("");
     setCarregando(true);
     try {
-      const result = await login(email, senha);
+      const result = cadastro
+        ? await registerClient(nome, email, senha)
+        : await login(email, senha);
       localStorage.setItem("imperium_token", result.accessToken);
-      window.location.href = "/imoveis";
+      localStorage.setItem("imperium_user", JSON.stringify(result.user));
+      window.location.href = result.user.role === "admin" ? "/imoveis" : "/cliente";
     } catch (error) {
       setErro(
         error instanceof TypeError
@@ -40,8 +45,14 @@ export default function LoginPage() {
           </a>
           <ThemeToggle />
         </div>
-        <h1>Entrar no painel</h1>
-        <p className="eyebrow">Área exclusiva da equipe</p>
+        <h1>{cadastro ? "Criar conta de cliente" : "Entrar na conta"}</h1>
+        <p className="eyebrow">Acesso para clientes e equipe</p>
+        {cadastro && (
+          <div className="field">
+            <label htmlFor="nome">Nome</label>
+            <input id="nome" value={nome} onChange={(e) => setNome(e.target.value)} required />
+          </div>
+        )}
         <div className="field">
           <label htmlFor="email">E-mail</label>
           <input
@@ -69,7 +80,10 @@ export default function LoginPage() {
           style={{ width: "100%", marginTop: 22 }}
           disabled={carregando}
         >
-          {carregando ? "Entrando..." : "Entrar"}
+          {carregando ? "Aguarde..." : cadastro ? "Criar conta" : "Entrar"}
+        </button>
+        <button className="text-link" type="button" onClick={() => setCadastro((value) => !value)}>
+          {cadastro ? "Já tenho uma conta" : "Criar conta de cliente"}
         </button>
         <a className="back-home" href="/">
           ← Voltar ao início

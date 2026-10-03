@@ -26,6 +26,7 @@ import {
 } from '@nestjs/swagger';
 import { ImoveisService } from './imoveis.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { AdminGuard } from '../auth/admin.guard';
 import { CreateImovelDto } from './dto/create-imovel.dto';
 import { UpdateImovelDto } from './dto/update-imovel.dto';
 import { FilterImovelDto } from './dto/filter-imovel.dto';
@@ -74,7 +75,7 @@ export class ImoveisController {
   }
 
   @Post()
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, AdminGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Cadastrar um novo imóvel (Requer autenticação)' })
   @ApiResponse({ status: 201, description: 'Imóvel cadastrado com sucesso.' })
@@ -85,7 +86,7 @@ export class ImoveisController {
   }
 
   @Put(':id')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, AdminGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Atualizar imóvel completo pelo ID (Requer autenticação)' })
   @ApiResponse({ status: 200, description: 'Imóvel atualizado com sucesso.' })
@@ -97,7 +98,7 @@ export class ImoveisController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, AdminGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Atualização parcial de um imóvel (Requer autenticação)' })
   @ApiResponse({ status: 200, description: 'Imóvel atualizado com sucesso.' })
@@ -109,7 +110,7 @@ export class ImoveisController {
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, AdminGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Remover um imóvel pelo ID (Requer autenticação)' })
   @ApiResponse({ status: 200, description: 'Imóvel removido com sucesso.' })
@@ -120,7 +121,7 @@ export class ImoveisController {
   }
 
   @Delete(':id/midias/:mediaId')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, AdminGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Remover foto ou mídia de um imóvel (Requer autenticação)' })
   @ApiResponse({ status: 200, description: 'Mídia removida com sucesso.' })
@@ -134,7 +135,7 @@ export class ImoveisController {
   }
 
   @Post(':id/midias')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, AdminGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Fazer upload de mídia para o imóvel (Requer autenticação)' })
   @ApiConsumes('multipart/form-data')

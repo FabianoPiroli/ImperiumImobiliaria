@@ -1,0 +1,1 @@
+ALTER TABLE "PropertyRequest" ADD COLUMN "estado" TEXT NOT NULL DEFAULT '';

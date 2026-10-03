@@ -8,7 +8,7 @@ export default function Home() {
     <div className="shell">
       <div className="container">
         <PublicHeader />
-        <main className="hero">
+        <main>
           <section className="hero-copy">
             <div className="hero-copy-main">
               <span className="eyebrow">Curadoria imobiliária</span>
@@ -29,11 +29,17 @@ export default function Home() {
               </div>
             </div>
           </section>
-          <FeaturedProperty />
+          <div className="hero">
+            <div className="hero-featured-header">
+              <span className="eyebrow">Em destaque</span>
+            </div>
+            <FeaturedProperty />
+          </div>
+          <PropertySearch />
         </main>
-        <PropertySearch />
         <PublicFooter />
       </div>
     </div>
   );
 }
+
