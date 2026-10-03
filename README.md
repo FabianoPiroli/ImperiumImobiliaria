@@ -215,8 +215,8 @@ FRONTEND_URL=http://localhost:3001,http://localhost:3000
 
 # Autenticação e Segurança (JWT)
 JWT_SECRET=sua-chave-secreta-jwt-super-segura-aqui
-ADMIN_EMAIL=admin@imperium.com
-ADMIN_PASSWORD=admin123
+ADMIN_EMAIL=email-aqui
+ADMIN_PASSWORD=senha-aqui
 
 # Banco de Dados PostgreSQL
 DATABASE_URL=postgresql://usuario:senha@localhost:5432/imperium
