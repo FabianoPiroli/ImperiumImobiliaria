@@ -1,7 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { getImoveis, mediaUrl } from "@/src/lib/api";
-import { Bed, Bath, Car } from "lucide-react";
+import { Bed, Bath, Car, Heart } from "lucide-react";
+import { useCallback } from "react";
 type Imovel = {
   id: number;
   codigo: number;
@@ -49,6 +50,14 @@ export function PublicCatalog({
       (!cidade || imovel.cidade.toLowerCase().includes(cidade.toLowerCase())) &&
       (!bairro || imovel.bairro.toLowerCase().includes(bairro.toLowerCase())),
   );
+  const [favoritos, setFavoritos] = useState<number[]>([]);
+
+  const toggleFavorito = useCallback((id: number) => {
+    setFavoritos((prev) =>
+      prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id],
+    );
+  }, []);
+
   return (
     <section className="public-listing">
       <div className="property-grid">
@@ -82,6 +91,27 @@ export function PublicCatalog({
                   ) : (
                     <span className="image-placeholder">Imperium</span>
                   )}
+                  <button
+                    aria-label={favoritos.includes(imovel.id) ? "Remover dos favoritos" : "Adicionar aos favoritos"}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleFavorito(imovel.id);
+                    }}
+                    className={`favorite-toggle transition-colors duration-200 ${favoritos.includes(imovel.id) ? 'text-red-600' : 'text-white'}`}
+                    style={{
+                      position: "absolute",
+                      top: 8,
+                      right: 8,
+                      background: "rgba(0,0,0,0.35)",
+                      borderRadius: 8,
+                      padding: 6,
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Heart size={20} className={`transform transition-transform ${favoritos.includes(imovel.id) ? 'scale-105' : 'scale-100'}`} fill={favoritos.includes(imovel.id) ? 'currentColor' : 'none'} />
+                  </button>
                 </div>
                 <div className="public-property-content">
                   <span className="eyebrow">
