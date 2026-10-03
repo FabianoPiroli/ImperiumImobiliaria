@@ -9,20 +9,24 @@ export default function Home() {
       <div className="container">
         <PublicHeader />
         <main className="hero">
-          <section>
-            <span className="eyebrow">Curadoria imobiliária</span>
-            <h1>Um lugar para chamar de seu.</h1>
-            <p>
-              Encontre imóveis com personalidade, localização e potencial para
-              acompanhar a próxima fase da sua história.
-            </p>
-            <div className="hero-actions">
-              <a className="button" href="/comprar">
-                Comprar imóvel
-              </a>
-              <a className="button secondary" href="/alugar">
-                Alugar imóvel
-              </a>
+          <section className="hero-copy">
+            <div className="hero-copy-main">
+              <span className="eyebrow">Curadoria imobiliária</span>
+              <h1>Um lugar para chamar de seu.</h1>
+            </div>
+            <div className="hero-copy-actions">
+              <p>
+                Encontre imóveis com personalidade, localização e potencial para
+                acompanhar a próxima fase da sua história.
+              </p>
+              <div className="hero-actions">
+                <a className="button" href="/comprar">
+                  Comprar imóvel
+                </a>
+                <a className="button secondary" href="/alugar">
+                  Alugar imóvel
+                </a>
+              </div>
             </div>
           </section>
           <FeaturedProperty />
