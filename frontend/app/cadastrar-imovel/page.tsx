@@ -31,7 +31,7 @@ export default function CadastrarImovelAppPage() {
         preco: Number(preco || 0),
         tipo,
         descricao: descricaoComContato,
-        status: "PENDENTE",
+        status: "pendente",
       });
       setMensagem("Anúncio enviado com sucesso. Status: PENDENTE");
       setTitulo("");

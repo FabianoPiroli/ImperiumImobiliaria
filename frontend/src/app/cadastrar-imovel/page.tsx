@@ -50,7 +50,7 @@ export default function CadastrarImovelPage() {
         banheiros: Number(banheiros || 0),
         vagasGaragem: Number(vagas || 0),
         ocultarNumeroExato: Boolean(ocultarNumero),
-        status: "PENDENTE",
+        status: "pendente",
       } as any);
 
       setMensagem("Anúncio enviado com sucesso! Aguardando aprovação.");

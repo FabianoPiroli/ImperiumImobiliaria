@@ -1,5 +1,5 @@
 import { IsOptional, IsString, IsNumber, IsIn, Min } from 'class-validator';
-import { Type } from 'class-transformer';
+import { Type, Transform } from 'class-transformer';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 
 export class FilterImovelDto {
@@ -19,11 +19,12 @@ export class FilterImovelDto {
 
   @ApiPropertyOptional({
     description: 'Filtrar por status',
-    enum: ['disponivel', 'reservado', 'vendido', 'alugado'],
+    enum: ['disponivel', 'pendente', 'reservado', 'vendido', 'alugado'],
   })
+  @Transform(({ value }) => (typeof value === 'string' ? value.trim().toLowerCase() : value))
   @IsOptional()
   @IsString()
-  @IsIn(['disponivel', 'reservado', 'vendido', 'alugado'])
+  @IsIn(['disponivel', 'pendente', 'reservado', 'vendido', 'alugado'])
   status?: string;
 
   @ApiPropertyOptional({

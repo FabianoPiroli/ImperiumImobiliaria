@@ -9,6 +9,7 @@ import {
   MaxLength,
   IsIn,
 } from 'class-validator';
+import { Transform } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateImovelDto {
@@ -77,13 +78,14 @@ export class CreateImovelDto {
 
   @ApiPropertyOptional({
     example: 'disponivel',
-    enum: ['disponivel', 'reservado', 'vendido', 'alugado'],
+    enum: ['disponivel', 'pendente', 'reservado', 'vendido', 'alugado'],
     description: 'Status atual do imóvel',
   })
+  @Transform(({ value }) => (typeof value === 'string' ? value.trim().toLowerCase() : value))
   @IsOptional()
   @IsString()
-  @IsIn(['disponivel', 'reservado', 'vendido', 'alugado'], {
-    message: 'Status deve ser: disponivel, reservado, vendido ou alugado.',
+  @IsIn(['disponivel', 'pendente', 'reservado', 'vendido', 'alugado'], {
+    message: 'Status deve ser: disponivel, pendente, reservado, vendido ou alugado.',
   })
   status?: string;
 

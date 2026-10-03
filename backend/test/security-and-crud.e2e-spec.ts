@@ -141,6 +141,32 @@ describe('Testes de Segurança e CRUD (e2e)', () => {
       expect(res.body.message.some((m: string) => m.includes('Tipo de imóvel inválido'))).toBe(true);
     });
 
+    it('deve aceitar status pendente do fluxo de aprovação do anúncio', async () => {
+      const res = await request(app.getHttpServer())
+        .post('/imoveis')
+        .set('Authorization', `Bearer ${authToken}`)
+        .send({
+          titulo: 'Imóvel em Análise',
+          descricao: 'Anúncio em aprovação administrativa',
+          tipo: 'apartamento',
+          cidade: 'Florianópolis',
+          endereco: 'Rua da Aprovação, 321',
+          preco: 610000,
+          quartos: 2,
+          banheiros: 1,
+          vagasGaragem: 1,
+          status: 'PENDENTE',
+        });
+
+      expect(res.status).toBe(201);
+      expect(res.body.status).toBe('PENDENTE');
+
+      await request(app.getHttpServer())
+        .delete(`/imoveis/${res.body.id}`)
+        .set('Authorization', `Bearer ${authToken}`)
+        .catch(() => null);
+    });
+
     it('deve rejeitar propriedades extras não permitidas (forbidNonWhitelisted)', async () => {
       const res = await request(app.getHttpServer())
         .post('/imoveis')
