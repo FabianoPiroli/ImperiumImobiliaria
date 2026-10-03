@@ -83,3 +83,5 @@ npm run start
 ```
 
 O frontend pode ser publicado como um projeto Next.js separado na Vercel, apontando `NEXT_PUBLIC_API_BASE_URL` para a API publicada.
+
+Em produção, configure `NEXT_PUBLIC_API_BASE_URL` nas variáveis do projeto frontend da Vercel com a URL pública do backend; não use `localhost`. No projeto backend, configure as variáveis correspondentes ao `backend/.env.example`, incluindo `POSTGRES_PRISMA_URL` e `POSTGRES_URL_NON_POOLING`. Os arquivos `.env` e `.env.local` contêm valores locais e não devem ser commitados.
