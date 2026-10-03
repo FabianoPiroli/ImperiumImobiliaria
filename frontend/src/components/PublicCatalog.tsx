@@ -27,7 +27,7 @@ export function PublicCatalog({
   cidade,
   bairro,
 }: {
-  finalidade: "venda" | "aluguel";
+  finalidade: "venda" | "locacao";
   categoria?: string;
   precoMax?: number;
   estado?: string;
@@ -123,7 +123,7 @@ export function PublicCatalog({
                   <div className="property-meta">
                     <span>
                       R$ {imovel.preco.toLocaleString("pt-BR")}
-                      {finalidade === "aluguel" && <small>/mês</small>}
+                      {finalidade === "locacao" && <small>/mês</small>}
                     </span>
                     <span
                       style={{

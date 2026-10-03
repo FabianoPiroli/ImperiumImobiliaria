@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useState } from "react";
 import { Brand } from "@/src/components/Brand";
+import { ThemeToggle } from "@/src/components/ThemeToggle";
 import { deleteMedia, getImovel, mediaUrl, updateImovel, uploadMedias } from "@/src/lib/api";
 
 import { LocationFields } from "@/src/components/LocationFields";
@@ -16,6 +17,7 @@ type Imovel = {
   cidade: string;
   bairro: string;
   endereco: string;
+  cep: string;
   preco: number;
   quartos: number;
   banheiros: number;
@@ -27,11 +29,11 @@ type Imovel = {
   midias: { id: number; url: string; tipo: string; nome: string }[];
 };
 const tipos = [
-  "Casa",
-  "Apartamento",
-  "Terreno / lote",
-  "Prédio comercial",
-  "Terreno rural / sítio / fazenda / chácara",
+  { value: "casa", label: "Casa" },
+  { value: "apartamento", label: "Apartamento" },
+  { value: "terreno", label: "Terreno / lote" },
+  { value: "comercial", label: "Prédio comercial" },
+  { value: "outro", label: "Terreno rural / sítio / fazenda / chácara" },
 ];
 
 export default function EditarImovelPage({
@@ -69,6 +71,7 @@ export default function EditarImovelPage({
         cidade: form.get("cidade"),
         bairro: form.get("bairro"),
         endereco: form.get("endereco"),
+        cep: form.get("cep"),
         preco: Number(form.get("preco")),
         quartos: Number(form.get("quartos")),
         banheiros: Number(form.get("banheiros")),
@@ -120,9 +123,12 @@ export default function EditarImovelPage({
           <a className="brand" href="/">
             <Brand />
           </a>
-          <a href="/imoveis" className="button secondary">
-            Voltar
-          </a>
+          <div className="admin-actions">
+            <ThemeToggle />
+            <a href="/imoveis" className="button secondary">
+              Voltar
+            </a>
+          </div>
         </header>
         <div className="page-head">
           <div>
@@ -144,14 +150,16 @@ export default function EditarImovelPage({
               defaultValue={imovel.finalidade || "venda"}
             >
               <option value="venda">Comprar</option>
-              <option value="aluguel">Alugar</option>
+              <option value="locacao">Alugar</option>
             </select>
           </label>
           <label className="field">
             <span>Tipo</span>
             <select name="tipo" defaultValue={imovel.tipo}>
               {tipos.map((tipo) => (
-                <option key={tipo}>{tipo}</option>
+                <option key={tipo.value} value={tipo.value}>
+                  {tipo.label}
+                </option>
               ))}
             </select>
           </label>
@@ -160,6 +168,7 @@ export default function EditarImovelPage({
             initialCidade={imovel.cidade}
             initialBairro={imovel.bairro}
             initialEndereco={imovel.endereco}
+            initialCep={imovel.cep}
             initialLatitude={imovel.latitude}
             initialLongitude={imovel.longitude}
             initialOcultarNumeroExato={imovel.ocultarNumeroExato}

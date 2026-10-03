@@ -1,5 +1,6 @@
 import { Brand } from "./Brand";
 import Link from "next/link";
+import { ThemeToggle } from "./ThemeToggle";
 
 export function PublicHeader() {
   return (
@@ -43,6 +44,7 @@ export function PublicHeader() {
           Cadastrar Imóvel
         </Link>
       </nav>
+      <ThemeToggle />
       <a className="button secondary admin-button" href="/login">
         Acesso administrativo
       </a>

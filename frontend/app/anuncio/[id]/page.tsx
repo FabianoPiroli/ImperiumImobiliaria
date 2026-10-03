@@ -6,6 +6,7 @@ import { PublicFooter } from "@/src/components/PublicFooter";
 import { PublicHeader } from "@/src/components/PublicHeader";
 import { getImovel } from "@/src/lib/api";
 import { MediaCarousel } from "@/src/components/MediaCarousel";
+import { Bath, Bed, Car } from "lucide-react";
 
 const PropertyMap = dynamic(() => import("@/src/components/PropertyMap"), {
   ssr: false,
@@ -73,7 +74,7 @@ export default function AnuncioPage({
         <main className="property-detail">
           <a
             className="text-link"
-            href={imovel.finalidade === "aluguel" ? "/alugar" : "/comprar"}
+            href={imovel.finalidade === "locacao" ? "/alugar" : "/comprar"}
           >
             ← Voltar para anúncios
           </a>
@@ -87,20 +88,50 @@ export default function AnuncioPage({
             <section className="detail-copy">
               <span className="eyebrow">
                 Código {imovel.codigo} ·{" "}
-                {imovel.finalidade === "aluguel" ? "Para alugar" : "À venda"} ·{" "}
+                {imovel.finalidade === "locacao" ? "Para alugar" : "À venda"} ·{" "}
                 {imovel.cidade}
               </span>
               <h1>{imovel.titulo}</h1>
               <p className="detail-price">
                 R$ {imovel.preco.toLocaleString("pt-BR")}{" "}
-                {imovel.finalidade === "aluguel" && <small>/mês</small>}
+                {imovel.finalidade === "locacao" && <small>/mês</small>}
               </p>
               <p>{imovel.descricao}</p>
               <div className="detail-specs">
                 <span>{imovel.tipo}</span>
-                <span>{imovel.quartos} quartos</span>
-                <span>{imovel.banheiros} banheiros</span>
-                <span>{imovel.vagasGaragem} vagas</span>
+                <span
+                          style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: "4px",
+                          }}
+                          title={`${imovel.quartos} quartos`}
+                        >
+                          <Bed size={16} />
+                          <span>{imovel.quartos}</span>
+                        </span>
+                        <span
+                          style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: "4px",
+                          }}
+                          title={`${imovel.banheiros} banheiros`}
+                        >
+                          <Bath size={16} />
+                          <span>{imovel.banheiros}</span>
+                        </span>
+                        <span
+                          style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: "4px",
+                          }}
+                          title={`${imovel.vagasGaragem} vagas`}
+                        >
+                          <Car size={16} />
+                          <span>{imovel.vagasGaragem}</span>
+                        </span>
               </div>
               <p className="detail-address">
                 {imovel.ocultarNumeroExato

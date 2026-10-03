@@ -55,6 +55,12 @@ export class CreateImovelDto {
   @MaxLength(200, { message: 'O endereço não pode ultrapassar 200 caracteres.' })
   endereco: string;
 
+  @ApiPropertyOptional({ example: '88000-000', description: 'CEP do imóvel' })
+  @IsOptional()
+  @IsString()
+  @MaxLength(9, { message: 'O CEP não pode ultrapassar 9 caracteres.' })
+  cep?: string;
+
   @ApiProperty({ example: 1250000.0, description: 'Preço de venda ou locação' })
   @IsNumber({}, { message: 'O preço deve ser um valor numérico.' })
   @Min(0, { message: 'O preço não pode ser negativo.' })

@@ -45,6 +45,7 @@ interface LocationFieldsProps {
   initialCidade?: string;
   initialBairro?: string;
   initialEndereco?: string;
+  initialCep?: string;
   initialLatitude?: number | null;
   initialLongitude?: number | null;
   initialOcultarNumeroExato?: boolean;
@@ -55,11 +56,12 @@ export function LocationFields({
   initialCidade = "",
   initialBairro = "",
   initialEndereco = "",
+  initialCep = "",
   initialLatitude = null,
   initialLongitude = null,
   initialOcultarNumeroExato = false,
 }: LocationFieldsProps) {
-  const [cep, setCep] = useState("");
+  const [cep, setCep] = useState(initialCep);
   const [estados, setEstados] = useState<EstadoIBGE[]>([]);
   const [cidades, setCidades] = useState<CidadeIBGE[]>([]);
 
@@ -104,6 +106,10 @@ export function LocationFields({
   }, [initialEndereco]);
 
   useEffect(() => {
+    setCep(initialCep);
+  }, [initialCep]);
+
+  useEffect(() => {
     if (typeof initialLatitude === "number") setLatitude(initialLatitude);
   }, [initialLatitude]);
 
@@ -118,9 +124,7 @@ export function LocationFields({
   // Carregar Estados do IBGE
   useEffect(() => {
     let active = true;
-    fetch(
-      "https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome"
-    )
+    fetch("/api/ibge/estados")
       .then((res) => {
         if (!res.ok) throw new Error("Erro ao buscar estados");
         return res.json();
@@ -143,9 +147,7 @@ export function LocationFields({
       return;
     }
     let active = true;
-    fetch(
-      `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${estado}/municipios`
-    )
+    fetch(`/api/ibge/estados/${estado}/municipios`)
       .then((res) => {
         if (!res.ok) throw new Error("Erro ao buscar cidades");
         return res.json();
@@ -328,6 +330,7 @@ export function LocationFields({
         </span>
         <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
           <input
+            name="cep"
             type="text"
             placeholder="00000-000"
             value={cep}
@@ -452,14 +455,7 @@ export function LocationFields({
 
       {/* SEÇÃO DE GEOLOCALIZAÇÃO E MAPA */}
       <div
-        className="field full"
-        style={{
-          marginTop: "10px",
-          padding: "16px",
-          borderRadius: "8px",
-          background: "#faf8f4",
-          border: "1px solid var(--line)",
-        }}
+        className="field full location-section"
       >
         <div style={{ marginBottom: "12px" }}>
           <span style={{ fontWeight: 600, display: "block", marginBottom: "4px" }}>
@@ -509,24 +505,7 @@ export function LocationFields({
         {/* Mensagem de Feedback */}
         {geoMensagem && (
           <div
-            style={{
-              padding: "6px 10px",
-              borderRadius: "4px",
-              marginBottom: "10px",
-              fontSize: "0.82rem",
-              background:
-                geoMensagem.tipo === "sucesso"
-                  ? "#e8f5e9"
-                  : geoMensagem.tipo === "erro"
-                  ? "#ffebee"
-                  : "#e3f2fd",
-              color:
-                geoMensagem.tipo === "sucesso"
-                  ? "#2e7d32"
-                  : geoMensagem.tipo === "erro"
-                  ? "#c62828"
-                  : "#1565c0",
-            }}
+            className={`geo-message ${geoMensagem.tipo}`}
           >
             {geoMensagem.texto}
           </div>

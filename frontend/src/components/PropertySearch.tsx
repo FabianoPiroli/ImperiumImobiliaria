@@ -7,16 +7,22 @@ export function PropertySearch() {
   const [estados, setEstados] = useState<EstadoIBGE[]>([]);
   const [cidades, setCidades] = useState<CidadeIBGE[]>([]);
   const [estadoSel, setEstadoSel] = useState("");
+  const [localidadesIndisponiveis, setLocalidadesIndisponiveis] = useState(false);
 
   // Carregar Estados do IBGE
   useEffect(() => {
     let active = true;
-    fetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome")
-      .then((res) => res.json())
+    fetch("/api/ibge/estados")
+      .then((res) => {
+        if (!res.ok) throw new Error("Não foi possível carregar os estados.");
+        return res.json();
+      })
       .then((data: EstadoIBGE[]) => {
         if (active) setEstados(data);
       })
-      .catch((err) => console.error("Erro ao buscar estados na busca:", err));
+      .catch(() => {
+        if (active) setLocalidadesIndisponiveis(true);
+      });
     return () => {
       active = false;
     };
@@ -29,12 +35,17 @@ export function PropertySearch() {
       return;
     }
     let active = true;
-    fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${estadoSel}/municipios`)
-      .then((res) => res.json())
+    fetch(`/api/ibge/estados/${estadoSel}/municipios`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Não foi possível carregar as cidades.");
+        return res.json();
+      })
       .then((data: CidadeIBGE[]) => {
         if (active) setCidades(data);
       })
-      .catch((err) => console.error("Erro ao buscar cidades na busca:", err));
+      .catch(() => {
+        if (active) setLocalidadesIndisponiveis(true);
+      });
     return () => {
       active = false;
     };
@@ -122,6 +133,11 @@ export function PropertySearch() {
       <button className="button" type="submit">
         Buscar imóveis
       </button>
+      {localidadesIndisponiveis && (
+        <small role="status">
+          Não foi possível carregar estados e cidades agora. Você ainda pode buscar por outros filtros.
+        </small>
+      )}
     </form>
   );
 }
