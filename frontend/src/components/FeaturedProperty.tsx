@@ -71,9 +71,11 @@ export function FeaturedProperty() {
       )}
       {imoveis.length > 1 && <button className="hero-carousel-arrow hero-carousel-arrow-left" type="button" onClick={() => mudarImovel(-1)} aria-label="Imóvel anterior">←</button>}
       {imoveis.length > 1 && <button className="hero-carousel-arrow hero-carousel-arrow-right" type="button" onClick={() => mudarImovel(1)} aria-label="Próximo imóvel">→</button>}
+      <div className="hero-featured-top">
+        <h2 className="hero-featured-title">{imovel?.titulo ?? "Novos imóveis em breve"}</h2>
+      </div>
       <div className="hero-featured-content">
         <div className="hero-featured-copy">
-          <strong>{imovel?.titulo ?? "Novos imóveis em breve"}</strong>
           {imovel ? (
             <span>
               Código {imovel.codigo} · {imovel.cidade} · R${" "}
