@@ -196,23 +196,7 @@ export default function PropertyMap({
         }}
       />
       {!hasCoords && editable && (
-        <div
-          style={{
-            position: "absolute",
-            bottom: "12px",
-            left: "50%",
-            transform: "translateX(-50%)",
-            background: "rgba(255, 253, 248, 0.92)",
-            border: "1px solid var(--line)",
-            padding: "6px 14px",
-            borderRadius: "20px",
-            fontSize: "0.78rem",
-            color: "var(--ink)",
-            zIndex: 1000,
-            pointerEvents: "none",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
-          }}
-        >
+        <div className="map-notice">
           📍 Clique no mapa ou use a busca acima para definir a posição
         </div>
       )}

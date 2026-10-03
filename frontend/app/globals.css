@@ -1749,3 +1749,31 @@ h3 {
   flex: 1;
   min-width: 0;
 }
+
+.map-notice {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  color: var(--ink);
+  z-index: 1000;
+  pointer-events: none;
+  box-shadow: 0 2px 12px var(--shadow);
+  white-space: nowrap;
+}
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: var(--paper) !important;
+  color: var(--ink) !important;
+  box-shadow: 0 4px 16px var(--shadow) !important;
+}
+
+.leaflet-popup-content {
+  color: var(--ink) !important;
+}
