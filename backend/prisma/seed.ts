@@ -6,10 +6,10 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('🌱 Iniciando seed do banco de dados...');
 
-  // 1. Garantir Usuário Administrador
+  // 1. Garantir Usuários de Demonstração (Admin e Cliente)
   const adminEmail = process.env.ADMIN_EMAIL || 'admin@imperium.com';
   const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
-  const hashedPassword = await bcrypt.hash(adminPassword, 10);
+  const hashedAdminPassword = await bcrypt.hash(adminPassword, 10);
 
   const admin = await prisma.user.upsert({
     where: { email: adminEmail },
@@ -17,11 +17,27 @@ async function main() {
     create: {
       nome: 'Administrador Imperium',
       email: adminEmail,
-      senha: hashedPassword,
+      senha: hashedAdminPassword,
       role: 'admin',
     },
   });
   console.log(`✅ Usuário administrador garantido: ${admin.email}`);
+
+  const clientEmail = 'cliente@imperium.com';
+  const clientPassword = 'cliente123';
+  const hashedClientPassword = await bcrypt.hash(clientPassword, 10);
+
+  const cliente = await prisma.user.upsert({
+    where: { email: clientEmail },
+    update: {},
+    create: {
+      nome: 'Cliente Demonstrativo',
+      email: clientEmail,
+      senha: hashedClientPassword,
+      role: 'cliente',
+    },
+  });
+  console.log(`✅ Usuário cliente de demonstração garantido: ${cliente.email}`);
 
   // 2. Criar Imóveis de Demonstração caso não existam
   const count = await prisma.imovel.count();
