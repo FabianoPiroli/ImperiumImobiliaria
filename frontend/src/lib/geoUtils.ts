@@ -137,4 +137,3 @@ export async function buscarCoordenadasNominatim(params: {
     return null;
   }
 }
-

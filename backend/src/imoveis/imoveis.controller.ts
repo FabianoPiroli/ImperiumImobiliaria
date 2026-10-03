@@ -37,8 +37,13 @@ export class ImoveisController {
   constructor(private service: ImoveisService) {}
 
   @Get('resolver-maps')
-  @ApiOperation({ summary: 'Extrair latitude e longitude a partir de um link do Google Maps' })
-  @ApiResponse({ status: 200, description: 'Coordenadas extraídas com sucesso.' })
+  @ApiOperation({
+    summary: 'Extrair latitude e longitude a partir de um link do Google Maps',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Coordenadas extraídas com sucesso.',
+  })
   @ApiResponse({ status: 400, description: 'Link inválido ou não suportado.' })
   async resolveMapsUrl(@Query('url') url: string) {
     if (!url) throw new BadRequestException('A URL é obrigatória.');
@@ -88,7 +93,9 @@ export class ImoveisController {
   @Put(':id')
   @UseGuards(JwtAuthGuard, AdminGuard)
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Atualizar imóvel completo pelo ID (Requer autenticação)' })
+  @ApiOperation({
+    summary: 'Atualizar imóvel completo pelo ID (Requer autenticação)',
+  })
   @ApiResponse({ status: 200, description: 'Imóvel atualizado com sucesso.' })
   @ApiResponse({ status: 400, description: 'Dados de validação inválidos.' })
   @ApiResponse({ status: 401, description: 'Não autorizado.' })
@@ -100,7 +107,9 @@ export class ImoveisController {
   @Patch(':id')
   @UseGuards(JwtAuthGuard, AdminGuard)
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Atualização parcial de um imóvel (Requer autenticação)' })
+  @ApiOperation({
+    summary: 'Atualização parcial de um imóvel (Requer autenticação)',
+  })
   @ApiResponse({ status: 200, description: 'Imóvel atualizado com sucesso.' })
   @ApiResponse({ status: 400, description: 'Dados de validação inválidos.' })
   @ApiResponse({ status: 401, description: 'Não autorizado.' })
@@ -123,7 +132,9 @@ export class ImoveisController {
   @Delete(':id/midias/:mediaId')
   @UseGuards(JwtAuthGuard, AdminGuard)
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Remover foto ou mídia de um imóvel (Requer autenticação)' })
+  @ApiOperation({
+    summary: 'Remover foto ou mídia de um imóvel (Requer autenticação)',
+  })
   @ApiResponse({ status: 200, description: 'Mídia removida com sucesso.' })
   @ApiResponse({ status: 401, description: 'Não autorizado.' })
   @ApiResponse({ status: 404, description: 'Mídia não encontrada.' })
@@ -137,7 +148,9 @@ export class ImoveisController {
   @Post(':id/midias')
   @UseGuards(JwtAuthGuard, AdminGuard)
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Fazer upload de mídia para o imóvel (Requer autenticação)' })
+  @ApiOperation({
+    summary: 'Fazer upload de mídia para o imóvel (Requer autenticação)',
+  })
   @ApiConsumes('multipart/form-data')
   @ApiBody({
     schema: {
@@ -159,9 +172,12 @@ export class ImoveisController {
       limits: { fileSize: 50 * 1024 * 1024 },
       fileFilter: (_request, file, callback) => {
         const permitido =
-          file.mimetype.startsWith('image/') || file.mimetype.startsWith('video/');
+          file.mimetype.startsWith('image/') ||
+          file.mimetype.startsWith('video/');
         callback(
-          permitido ? null : new BadRequestException('Envie uma imagem ou vídeo.'),
+          permitido
+            ? null
+            : new BadRequestException('Envie uma imagem ou vídeo.'),
           permitido,
         );
       },

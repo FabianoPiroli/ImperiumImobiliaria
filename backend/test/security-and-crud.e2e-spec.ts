@@ -52,19 +52,17 @@ describe('Testes de Segurança e CRUD (e2e)', () => {
 
   describe('🛡️ Testes de Segurança e Controle de Acesso', () => {
     it('deve bloquear criação de imóvel sem token com 401 Unauthorized', async () => {
-      const res = await request(app.getHttpServer())
-        .post('/imoveis')
-        .send({
-          titulo: 'Imóvel Não Autorizado',
-          descricao: 'Tentativa sem auth',
-          tipo: 'casa',
-          cidade: 'Florianópolis',
-          endereco: 'Rua Teste, 123',
-          preco: 500000,
-          quartos: 2,
-          banheiros: 1,
-          vagasGaragem: 1,
-        });
+      const res = await request(app.getHttpServer()).post('/imoveis').send({
+        titulo: 'Imóvel Não Autorizado',
+        descricao: 'Tentativa sem auth',
+        tipo: 'casa',
+        cidade: 'Florianópolis',
+        endereco: 'Rua Teste, 123',
+        preco: 500000,
+        quartos: 2,
+        banheiros: 1,
+        vagasGaragem: 1,
+      });
 
       expect(res.status).toBe(401);
       expect(res.body.message).toMatch(/Autenticação necessária/i);
@@ -85,7 +83,9 @@ describe('Testes de Segurança e CRUD (e2e)', () => {
         .query({ url: 'http://169.254.169.254/latest/meta-data/' });
 
       expect(res.status).toBe(400);
-      expect(res.body.message).toMatch(/não foi possível extrair as coordenadas/i);
+      expect(res.body.message).toMatch(
+        /não foi possível extrair as coordenadas/i,
+      );
     });
   });
 
@@ -118,7 +118,9 @@ describe('Testes de Segurança e CRUD (e2e)', () => {
         });
 
       expect(res.status).toBe(400);
-      expect(res.body.message.some((m: string) => m.includes('150 caracteres'))).toBe(true);
+      expect(
+        res.body.message.some((m: string) => m.includes('150 caracteres')),
+      ).toBe(true);
     });
 
     it('deve rejeitar valor fora da lista permitida (ex: tipo de imóvel inválido)', async () => {
@@ -138,7 +140,11 @@ describe('Testes de Segurança e CRUD (e2e)', () => {
         });
 
       expect(res.status).toBe(400);
-      expect(res.body.message.some((m: string) => m.includes('Tipo de imóvel inválido'))).toBe(true);
+      expect(
+        res.body.message.some((m: string) =>
+          m.includes('Tipo de imóvel inválido'),
+        ),
+      ).toBe(true);
     });
 
     it('deve rejeitar propriedades extras não permitidas (forbidNonWhitelisted)', async () => {
@@ -159,7 +165,9 @@ describe('Testes de Segurança e CRUD (e2e)', () => {
         });
 
       expect(res.status).toBe(400);
-      expect(res.body.message.some((m: string) => m.includes('should not exist'))).toBe(true);
+      expect(
+        res.body.message.some((m: string) => m.includes('should not exist')),
+      ).toBe(true);
     });
   });
 
@@ -169,7 +177,7 @@ describe('Testes de Segurança e CRUD (e2e)', () => {
         titulo: "Apartamento ' OR '1'='1'; --",
         descricao: "<script>alert('xss')</script> Teste seguro de caracteres",
         tipo: 'apartamento',
-        cidade: "Florianópolis'; DROP TABLE \"User\"; --",
+        cidade: 'Florianópolis\'; DROP TABLE "User"; --',
         endereco: 'Rua das Ostras, 50',
         preco: 450000,
         quartos: 2,
@@ -239,11 +247,15 @@ describe('Testes de Segurança e CRUD (e2e)', () => {
 
       expect(res.status).toBe(200);
       expect(Array.isArray(res.body)).toBe(true);
-      expect(res.body.some((item: any) => item.id === createdImovelId)).toBe(true);
+      expect(res.body.some((item: any) => item.id === createdImovelId)).toBe(
+        true,
+      );
     });
 
     it('3. Read (Detalhe): Deve retornar os detalhes do imóvel criado pelo ID (200)', async () => {
-      const res = await request(app.getHttpServer()).get(`/imoveis/${createdImovelId}`);
+      const res = await request(app.getHttpServer()).get(
+        `/imoveis/${createdImovelId}`,
+      );
 
       expect(res.status).toBe(200);
       expect(res.body.id).toBe(createdImovelId);
@@ -281,11 +293,12 @@ describe('Testes de Segurança e CRUD (e2e)', () => {
     });
 
     it('7. Read pós-deleção: Deve confirmar exclusão retornando 404', async () => {
-      const res = await request(app.getHttpServer()).get(`/imoveis/${createdImovelId}`);
+      const res = await request(app.getHttpServer()).get(
+        `/imoveis/${createdImovelId}`,
+      );
 
       expect(res.status).toBe(404);
       createdImovelId = 0; // Marca como já limpo
     });
   });
 });
-

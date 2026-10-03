@@ -36,7 +36,8 @@ export default function NovoImovelPage() {
         vagasGaragem: Number(form.get("vagasGaragem")),
         finalidade: form.get("finalidade"),
         latitude: latVal && !isNaN(Number(latVal)) ? Number(latVal) : undefined,
-        longitude: lngVal && !isNaN(Number(lngVal)) ? Number(lngVal) : undefined,
+        longitude:
+          lngVal && !isNaN(Number(lngVal)) ? Number(lngVal) : undefined,
         ocultarNumeroExato: form.get("ocultarNumeroExato") === "true",
       });
       const imagens = Array.from(

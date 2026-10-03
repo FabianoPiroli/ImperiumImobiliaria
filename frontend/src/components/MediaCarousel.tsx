@@ -1,6 +1,8 @@
 "use client";
 import { useState } from "react";
 import { mediaUrl } from "@/src/lib/api";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
 type Media = { url: string; tipo: string; nome?: string };
 export function MediaCarousel({
   midias,
@@ -40,7 +42,7 @@ export function MediaCarousel({
               onClick={anterior}
               aria-label="Imagem anterior"
             >
-              ‹
+              <ChevronLeft size={22} strokeWidth={2.5} />
             </button>
             <button
               className="carousel-control next"
@@ -48,7 +50,7 @@ export function MediaCarousel({
               onClick={proxima}
               aria-label="Próxima imagem"
             >
-              ›
+              <ChevronRight size={22} strokeWidth={2.5} />
             </button>
           </>
         )}

@@ -1,6 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
-import { addClientFavorite, getClientFavorites, getImoveis, mediaUrl, removeClientFavorite } from "@/src/lib/api";
+import {
+  addClientFavorite,
+  getClientFavorites,
+  getImoveis,
+  mediaUrl,
+  removeClientFavorite,
+} from "@/src/lib/api";
 import { Bed, Bath, Car, Heart } from "lucide-react";
 import { useCallback } from "react";
 type Imovel = {
@@ -55,24 +61,31 @@ export function PublicCatalog({
   useEffect(() => {
     if (!localStorage.getItem("imperium_token")) return;
     getClientFavorites()
-      .then((items) => setFavoritos(items.map((item: { imovelId: number }) => item.imovelId)))
+      .then((items) =>
+        setFavoritos(items.map((item: { imovelId: number }) => item.imovelId)),
+      )
       .catch(() => undefined);
   }, []);
 
-  const toggleFavorito = useCallback(async (id: number) => {
-    if (!localStorage.getItem("imperium_token")) {
-      window.location.href = "/cliente/login?next=/comprar";
-      return;
-    }
-    const alreadyFavorite = favoritos.includes(id);
-    try {
-      if (alreadyFavorite) await removeClientFavorite(id);
-      else await addClientFavorite(id);
-      setFavoritos((prev) => alreadyFavorite ? prev.filter((p) => p !== id) : [...prev, id]);
-    } catch {
-      setErro("Não foi possível atualizar os favoritos.");
-    }
-  }, [favoritos]);
+  const toggleFavorito = useCallback(
+    async (id: number) => {
+      if (!localStorage.getItem("imperium_token")) {
+        window.location.href = "/cliente/login?next=/comprar";
+        return;
+      }
+      const alreadyFavorite = favoritos.includes(id);
+      try {
+        if (alreadyFavorite) await removeClientFavorite(id);
+        else await addClientFavorite(id);
+        setFavoritos((prev) =>
+          alreadyFavorite ? prev.filter((p) => p !== id) : [...prev, id],
+        );
+      } catch {
+        setErro("Não foi possível atualizar os favoritos.");
+      }
+    },
+    [favoritos],
+  );
 
   return (
     <section className="public-listing">
@@ -108,12 +121,16 @@ export function PublicCatalog({
                     <span className="image-placeholder">Imperium</span>
                   )}
                   <button
-                    aria-label={favoritos.includes(imovel.id) ? "Remover dos favoritos" : "Adicionar aos favoritos"}
+                    aria-label={
+                      favoritos.includes(imovel.id)
+                        ? "Remover dos favoritos"
+                        : "Adicionar aos favoritos"
+                    }
                     onClick={(e) => {
                       e.preventDefault();
                       toggleFavorito(imovel.id);
                     }}
-                    className={`favorite-toggle transition-colors duration-200 ${favoritos.includes(imovel.id) ? 'text-red-600' : 'text-white'}`}
+                    className={`favorite-toggle transition-colors duration-200 ${favoritos.includes(imovel.id) ? "text-red-600" : "text-white"}`}
                     style={{
                       position: "absolute",
                       top: 8,
@@ -126,7 +143,13 @@ export function PublicCatalog({
                       justifyContent: "center",
                     }}
                   >
-                    <Heart size={20} className={`transform transition-transform ${favoritos.includes(imovel.id) ? 'scale-105' : 'scale-100'}`} fill={favoritos.includes(imovel.id) ? 'currentColor' : 'none'} />
+                    <Heart
+                      size={20}
+                      className={`transform transition-transform ${favoritos.includes(imovel.id) ? "scale-105" : "scale-100"}`}
+                      fill={
+                        favoritos.includes(imovel.id) ? "currentColor" : "none"
+                      }
+                    />
                   </button>
                 </div>
                 <div className="public-property-content">

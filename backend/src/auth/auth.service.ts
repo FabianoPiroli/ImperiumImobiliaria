@@ -1,4 +1,10 @@
-import { ConflictException, Injectable, UnauthorizedException, Logger, OnModuleInit } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  UnauthorizedException,
+  Logger,
+  OnModuleInit,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma/prisma.service';
 import * as bcrypt from 'bcryptjs';
@@ -7,7 +13,10 @@ import * as bcrypt from 'bcryptjs';
 export class AuthService implements OnModuleInit {
   private readonly logger = new Logger(AuthService.name);
 
-  constructor(private prisma: PrismaService, private jwt: JwtService) {}
+  constructor(
+    private prisma: PrismaService,
+    private jwt: JwtService,
+  ) {}
 
   async onModuleInit() {
     await this.ensureAdmin();
@@ -21,20 +30,44 @@ export class AuthService implements OnModuleInit {
     }
     this.logger.log(`Login bem-sucedido para o usuário ID: ${user.id}`);
     return {
-      accessToken: this.jwt.sign({ sub: user.id, email: user.email, role: user.role }),
-      user: { id: user.id, nome: user.nome, email: user.email, role: user.role },
+      accessToken: this.jwt.sign({
+        sub: user.id,
+        email: user.email,
+        role: user.role,
+      }),
+      user: {
+        id: user.id,
+        nome: user.nome,
+        email: user.email,
+        role: user.role,
+      },
     };
   }
 
   async registerClient(nome: string, email: string, senha: string) {
     const existing = await this.prisma.user.findUnique({ where: { email } });
-    if (existing) throw new ConflictException('Já existe uma conta com este e-mail.');
+    if (existing)
+      throw new ConflictException('Já existe uma conta com este e-mail.');
     const user = await this.prisma.user.create({
-      data: { nome, email, senha: await bcrypt.hash(senha, 10), role: 'cliente' },
+      data: {
+        nome,
+        email,
+        senha: await bcrypt.hash(senha, 10),
+        role: 'cliente',
+      },
     });
     return {
-      accessToken: this.jwt.sign({ sub: user.id, email: user.email, role: user.role }),
-      user: { id: user.id, nome: user.nome, email: user.email, role: user.role },
+      accessToken: this.jwt.sign({
+        sub: user.id,
+        email: user.email,
+        role: user.role,
+      }),
+      user: {
+        id: user.id,
+        nome: user.nome,
+        email: user.email,
+        role: user.role,
+      },
     };
   }
 
@@ -44,7 +77,9 @@ export class AuthService implements OnModuleInit {
     const senha = process.env.ADMIN_PASSWORD || 'admin123';
 
     if (!process.env.ADMIN_PASSWORD && process.env.NODE_ENV !== 'production') {
-      this.logger.warn('ADMIN_PASSWORD não configurada. Usando senha padrão para desenvolvimento local.');
+      this.logger.warn(
+        'ADMIN_PASSWORD não configurada. Usando senha padrão para desenvolvimento local.',
+      );
     }
 
     const existing = await this.prisma.user.findUnique({ where: { email } });

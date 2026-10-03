@@ -60,60 +60,104 @@ export default function CadastrarImovelAppPage() {
       <PublicHeader />
       <main className="page">
         <div className="container">
-        <h1>Cadastrar imóvel</h1>
-        <p>
-          Os anúncios enviados ficarão com status <strong>PENDENTE</strong> para
-          aprovação administrativa.
-        </p>
-        <form onSubmit={handleSubmit} className="panel">
-          <label>
-            Título
-            <input value={titulo} onChange={(e) => setTitulo(e.target.value)} required />
-          </label>
-          <label>
-            Preço
-            <input value={preco} onChange={(e) => setPreco(e.target.value)} required inputMode="numeric" />
-          </label>
-          <label>
-            Tipo
-            <input value={tipo} onChange={(e) => setTipo(e.target.value)} required />
-          </label>
-          <label>
-            Finalidade
-            <select value={finalidade} onChange={(e) => setFinalidade(e.target.value)}>
-              <option value="venda">Venda</option>
-              <option value="locacao">Locação</option>
-            </select>
-          </label>
-          <label>
-            Cidade
-            <input value={cidade} onChange={(e) => setCidade(e.target.value)} required />
-          </label>
-          <label>
-            Descrição
-            <textarea value={descricao} onChange={(e) => setDescricao(e.target.value)} />
-          </label>
-          <fieldset style={{ border: "none", padding: 0 }}>
-            <legend>Dados de contato (visíveis no anúncio)</legend>
+          <h1>Cadastrar imóvel</h1>
+          <p>
+            Os anúncios enviados ficarão com status <strong>PENDENTE</strong>{" "}
+            para aprovação administrativa.
+          </p>
+          <form onSubmit={handleSubmit} className="panel">
             <label>
-              Nome do contato
-              <input value={contatoNome} onChange={(e) => setContatoNome(e.target.value)} placeholder="Nome responsável pelo contato" />
+              Título
+              <input
+                value={titulo}
+                onChange={(e) => setTitulo(e.target.value)}
+                required
+              />
             </label>
             <label>
-              Telefone
-              <input value={contatoTelefone} onChange={(e) => setContatoTelefone(e.target.value)} placeholder="(XX) XXXXX-XXXX" />
+              Preço
+              <input
+                value={preco}
+                onChange={(e) => setPreco(e.target.value)}
+                required
+                inputMode="numeric"
+              />
             </label>
             <label>
-              E-mail
-              <input value={contatoEmail} onChange={(e) => setContatoEmail(e.target.value)} placeholder="contato@exemplo.com" type="email" />
+              Tipo
+              <input
+                value={tipo}
+                onChange={(e) => setTipo(e.target.value)}
+                required
+              />
             </label>
-          </fieldset>
-          <div style={{ display: "flex", gap: "12px" }}>
-            <button className="button" type="submit">Enviar anúncio</button>
-            <Link href="/" className="button secondary">Cancelar</Link>
-          </div>
-        </form>
-        {mensagem && <div className="panel" role="status">{mensagem}</div>}
+            <label>
+              Finalidade
+              <select
+                value={finalidade}
+                onChange={(e) => setFinalidade(e.target.value)}
+              >
+                <option value="venda">Venda</option>
+                <option value="locacao">Locação</option>
+              </select>
+            </label>
+            <label>
+              Cidade
+              <input
+                value={cidade}
+                onChange={(e) => setCidade(e.target.value)}
+                required
+              />
+            </label>
+            <label>
+              Descrição
+              <textarea
+                value={descricao}
+                onChange={(e) => setDescricao(e.target.value)}
+              />
+            </label>
+            <fieldset style={{ border: "none", padding: 0 }}>
+              <legend>Dados de contato (visíveis no anúncio)</legend>
+              <label>
+                Nome do contato
+                <input
+                  value={contatoNome}
+                  onChange={(e) => setContatoNome(e.target.value)}
+                  placeholder="Nome responsável pelo contato"
+                />
+              </label>
+              <label>
+                Telefone
+                <input
+                  value={contatoTelefone}
+                  onChange={(e) => setContatoTelefone(e.target.value)}
+                  placeholder="(XX) XXXXX-XXXX"
+                />
+              </label>
+              <label>
+                E-mail
+                <input
+                  value={contatoEmail}
+                  onChange={(e) => setContatoEmail(e.target.value)}
+                  placeholder="contato@exemplo.com"
+                  type="email"
+                />
+              </label>
+            </fieldset>
+            <div style={{ display: "flex", gap: "12px" }}>
+              <button className="button" type="submit">
+                Enviar anúncio
+              </button>
+              <Link href="/" className="button secondary">
+                Cancelar
+              </Link>
+            </div>
+          </form>
+          {mensagem && (
+            <div className="panel" role="status">
+              {mensagem}
+            </div>
+          )}
         </div>
       </main>
     </>

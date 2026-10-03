@@ -12,7 +12,9 @@ const getJwtSecret = (): string => {
     if (process.env.NODE_ENV === 'production') {
       throw new Error('JWT_SECRET obrigatória em ambiente de produção.');
     }
-    new Logger('AuthModule').warn('JWT_SECRET não definida. Usando chave padrão de desenvolvimento.');
+    new Logger('AuthModule').warn(
+      'JWT_SECRET não definida. Usando chave padrão de desenvolvimento.',
+    );
     return 'imperium-dev-secret';
   }
   return secret;

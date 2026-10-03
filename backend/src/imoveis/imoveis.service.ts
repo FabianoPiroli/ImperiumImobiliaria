@@ -6,7 +6,9 @@ import { UpdateImovelDto } from './dto/update-imovel.dto';
 import { FilterImovelDto } from './dto/filter-imovel.dto';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
-export type ImovelComMidias = Prisma.ImovelGetPayload<{ include: { midias: true } }>;
+export type ImovelComMidias = Prisma.ImovelGetPayload<{
+  include: { midias: true };
+}>;
 
 @Injectable()
 export class ImoveisService {
@@ -139,7 +141,9 @@ export class ImoveisService {
     return this.prisma.midia.delete({ where: { id: mediaId } });
   }
 
-  async resolveMapsUrl(url: string): Promise<{ lat: number; lng: number } | null> {
+  async resolveMapsUrl(
+    url: string,
+  ): Promise<{ lat: number; lng: number } | null> {
     try {
       if (!/^https?:\/\//i.test(url)) return null;
 
@@ -160,7 +164,9 @@ export class ImoveisService {
       );
 
       if (!isAllowed) {
-        this.logger.warn(`Tentativa de resolução de URL fora dos domínios permitidos: ${hostname}`);
+        this.logger.warn(
+          `Tentativa de resolução de URL fora dos domínios permitidos: ${hostname}`,
+        );
         return null;
       }
 
@@ -188,7 +194,9 @@ export class ImoveisService {
       }
 
       // 2. Tentar casar parâmetro de busca ?q=lat,lng ou ?query=lat,lng
-      const matchQ = finalUrl.match(/[?&](?:q|query)=(-?\d+\.\d+),(-?\d+\.\d+)/);
+      const matchQ = finalUrl.match(
+        /[?&](?:q|query)=(-?\d+\.\d+),(-?\d+\.\d+)/,
+      );
       if (matchQ) {
         return { lat: parseFloat(matchQ[1]), lng: parseFloat(matchQ[2]) };
       }
@@ -198,7 +206,10 @@ export class ImoveisService {
         /(-?\d{1,2}\.\d{3,})[,\s]+(-?\d{1,3}\.\d{3,})/,
       );
       if (matchCoords) {
-        return { lat: parseFloat(matchCoords[1]), lng: parseFloat(matchCoords[2]) };
+        return {
+          lat: parseFloat(matchCoords[1]),
+          lng: parseFloat(matchCoords[2]),
+        };
       }
 
       // 4. Se for HTML retornado, verificar se contém metatag ou link com coordenadas
@@ -214,7 +225,10 @@ export class ImoveisService {
         /(-?\d{1,2}\.\d{4,})[,\s]+(-?\d{1,3}\.\d{4,})/,
       );
       if (metaMatch2) {
-        return { lat: parseFloat(metaMatch2[1]), lng: parseFloat(metaMatch2[2]) };
+        return {
+          lat: parseFloat(metaMatch2[1]),
+          lng: parseFloat(metaMatch2[2]),
+        };
       }
 
       return null;

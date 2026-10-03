@@ -23,7 +23,8 @@ export default function LoginPage() {
         : await login(email, senha);
       localStorage.setItem("imperium_token", result.accessToken);
       localStorage.setItem("imperium_user", JSON.stringify(result.user));
-      window.location.href = result.user.role === "admin" ? "/imoveis" : "/cliente";
+      window.location.href =
+        result.user.role === "admin" ? "/imoveis" : "/cliente";
     } catch (error) {
       setErro(
         error instanceof TypeError
@@ -50,7 +51,12 @@ export default function LoginPage() {
         {cadastro && (
           <div className="field">
             <label htmlFor="nome">Nome</label>
-            <input id="nome" value={nome} onChange={(e) => setNome(e.target.value)} required />
+            <input
+              id="nome"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+              required
+            />
           </div>
         )}
         <div className="field">
@@ -82,7 +88,11 @@ export default function LoginPage() {
         >
           {carregando ? "Aguarde..." : cadastro ? "Criar conta" : "Entrar"}
         </button>
-        <button className="text-link" type="button" onClick={() => setCadastro((value) => !value)}>
+        <button
+          className="text-link"
+          type="button"
+          onClick={() => setCadastro((value) => !value)}
+        >
           {cadastro ? "Já tenho uma conta" : "Criar conta de cliente"}
         </button>
         <a className="back-home" href="/">

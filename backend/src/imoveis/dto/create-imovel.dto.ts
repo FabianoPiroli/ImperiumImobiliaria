@@ -12,14 +12,22 @@ import {
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateImovelDto {
-  @ApiProperty({ example: 'Apartamento de Luxo Frente Mar', description: 'Título do imóvel' })
+  @ApiProperty({
+    example: 'Apartamento de Luxo Frente Mar',
+    description: 'Título do imóvel',
+  })
   @IsString({ message: 'O título deve ser um texto.' })
   @MaxLength(150, { message: 'O título não pode ultrapassar 150 caracteres.' })
   titulo: string;
 
-  @ApiProperty({ example: 'Excelente apartamento com 3 suítes...', description: 'Descrição detalhada' })
+  @ApiProperty({
+    example: 'Excelente apartamento com 3 suítes...',
+    description: 'Descrição detalhada',
+  })
   @IsString({ message: 'A descrição deve ser um texto.' })
-  @MaxLength(5000, { message: 'A descrição não pode ultrapassar 5000 caracteres.' })
+  @MaxLength(5000, {
+    message: 'A descrição não pode ultrapassar 5000 caracteres.',
+  })
   descricao: string;
 
   @ApiProperty({
@@ -33,26 +41,40 @@ export class CreateImovelDto {
   })
   tipo: string;
 
-  @ApiPropertyOptional({ example: 'SC', description: 'UF do estado (2 letras)' })
+  @ApiPropertyOptional({
+    example: 'SC',
+    description: 'UF do estado (2 letras)',
+  })
   @IsOptional()
   @IsString()
   @MaxLength(2, { message: 'O estado deve ter no máximo 2 caracteres.' })
   estado?: string;
 
-  @ApiProperty({ example: 'Florianópolis', description: 'Cidade onde fica o imóvel' })
+  @ApiProperty({
+    example: 'Florianópolis',
+    description: 'Cidade onde fica o imóvel',
+  })
   @IsString()
   @MaxLength(100, { message: 'A cidade não pode ultrapassar 100 caracteres.' })
   cidade: string;
 
-  @ApiPropertyOptional({ example: 'Centro', description: 'Bairro onde fica o imóvel' })
+  @ApiPropertyOptional({
+    example: 'Centro',
+    description: 'Bairro onde fica o imóvel',
+  })
   @IsOptional()
   @IsString()
   @MaxLength(100, { message: 'O bairro não pode ultrapassar 100 caracteres.' })
   bairro?: string;
 
-  @ApiProperty({ example: 'Av. Beira Mar Norte, 1000', description: 'Endereço completo ou aproximado' })
+  @ApiProperty({
+    example: 'Av. Beira Mar Norte, 1000',
+    description: 'Endereço completo ou aproximado',
+  })
   @IsString()
-  @MaxLength(200, { message: 'O endereço não pode ultrapassar 200 caracteres.' })
+  @MaxLength(200, {
+    message: 'O endereço não pode ultrapassar 200 caracteres.',
+  })
   endereco: string;
 
   @ApiPropertyOptional({ example: '88000-000', description: 'CEP do imóvel' })
@@ -105,21 +127,30 @@ export class CreateImovelDto {
   })
   finalidade?: string;
 
-  @ApiPropertyOptional({ example: -27.5969, description: 'Latitude geográfica (-90 a 90)' })
+  @ApiPropertyOptional({
+    example: -27.5969,
+    description: 'Latitude geográfica (-90 a 90)',
+  })
   @IsOptional()
   @IsNumber({}, { message: 'A latitude deve ser um número decimal.' })
   @Min(-90, { message: 'Latitude mínima é -90.' })
   @Max(90, { message: 'Latitude máxima é 90.' })
   latitude?: number;
 
-  @ApiPropertyOptional({ example: -48.5495, description: 'Longitude geográfica (-180 a 180)' })
+  @ApiPropertyOptional({
+    example: -48.5495,
+    description: 'Longitude geográfica (-180 a 180)',
+  })
   @IsOptional()
   @IsNumber({}, { message: 'A longitude deve ser um número decimal.' })
   @Min(-180, { message: 'Longitude mínima é -180.' })
   @Max(180, { message: 'Longitude máxima é 180.' })
   longitude?: number;
 
-  @ApiPropertyOptional({ example: false, description: 'Ocultar número exato do endereço no frontend' })
+  @ApiPropertyOptional({
+    example: false,
+    description: 'Ocultar número exato do endereço no frontend',
+  })
   @IsOptional()
   @IsBoolean({ message: 'ocultarNumeroExato deve ser booleano.' })
   ocultarNumeroExato?: boolean;

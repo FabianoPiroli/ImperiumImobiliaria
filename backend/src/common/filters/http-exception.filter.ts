@@ -27,14 +27,14 @@ export class AllExceptionsFilter implements ExceptionFilter {
     if (isHttpException) {
       const res = exception.getResponse();
       responseBody =
-        typeof res === 'object'
-          ? res
-          : { statusCode: status, message: res };
+        typeof res === 'object' ? res : { statusCode: status, message: res };
     } else {
       // Registrar erro crítico de forma segura no servidor, sem vazar para o cliente
       this.logger.error(
         `[${request.method}] ${request.url} - Erro interno não tratado:`,
-        exception instanceof Error ? exception.stack : JSON.stringify(exception),
+        exception instanceof Error
+          ? exception.stack
+          : JSON.stringify(exception),
       );
 
       responseBody = {
@@ -48,4 +48,3 @@ export class AllExceptionsFilter implements ExceptionFilter {
     response.status(status).json(responseBody);
   }
 }
-

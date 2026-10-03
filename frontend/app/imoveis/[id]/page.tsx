@@ -3,7 +3,13 @@
 import { FormEvent, useEffect, useState } from "react";
 import { Brand } from "@/src/components/Brand";
 import { ThemeToggle } from "@/src/components/ThemeToggle";
-import { deleteMedia, getImovel, mediaUrl, updateImovel, uploadMedias } from "@/src/lib/api";
+import {
+  deleteMedia,
+  getImovel,
+  mediaUrl,
+  updateImovel,
+  uploadMedias,
+} from "@/src/lib/api";
 
 import { LocationFields } from "@/src/components/LocationFields";
 
@@ -102,9 +108,16 @@ export default function EditarImovelPage({
     if (!imovel || !window.confirm("Excluir esta mídia?")) return;
     try {
       await deleteMedia(imovel.id, mediaId);
-      setImovel({ ...imovel, midias: imovel.midias.filter((media) => media.id !== mediaId) });
+      setImovel({
+        ...imovel,
+        midias: imovel.midias.filter((media) => media.id !== mediaId),
+      });
     } catch (error) {
-      setErro(error instanceof Error ? error.message : "Não foi possível excluir a mídia.");
+      setErro(
+        error instanceof Error
+          ? error.message
+          : "Não foi possível excluir a mídia.",
+      );
     }
   }
 
@@ -255,7 +268,13 @@ export default function EditarImovelPage({
                 ) : (
                   <img src={mediaUrl(midia.url)} alt={midia.nome} />
                 )}
-                <button className="button danger" type="button" onClick={() => removeMedia(midia.id)}>Excluir mídia</button>
+                <button
+                  className="button danger"
+                  type="button"
+                  onClick={() => removeMedia(midia.id)}
+                >
+                  Excluir mídia
+                </button>
               </div>
             ))}
           </div>

@@ -9,7 +9,9 @@ export function ThemeToggle() {
 
   useEffect(() => {
     const saved = window.localStorage.getItem(THEME_KEY);
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)",
+    ).matches;
     const isDark = saved ? saved === "dark" : prefersDark;
     document.documentElement.dataset.theme = isDark ? "dark" : "light";
     setDark(isDark);

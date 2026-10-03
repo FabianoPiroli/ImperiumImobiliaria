@@ -3,7 +3,9 @@ import { Type } from 'class-transformer';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 
 export class FilterImovelDto {
-  @ApiPropertyOptional({ description: 'Termo de busca textual para título, descrição ou endereço' })
+  @ApiPropertyOptional({
+    description: 'Termo de busca textual para título, descrição ou endereço',
+  })
   @IsOptional()
   @IsString()
   busca?: string;
@@ -61,4 +63,3 @@ export class FilterImovelDto {
   @Min(0)
   quartos?: number;
 }
-

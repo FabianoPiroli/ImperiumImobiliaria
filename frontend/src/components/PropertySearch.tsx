@@ -7,7 +7,8 @@ export function PropertySearch() {
   const [estados, setEstados] = useState<EstadoIBGE[]>([]);
   const [cidades, setCidades] = useState<CidadeIBGE[]>([]);
   const [estadoSel, setEstadoSel] = useState("");
-  const [localidadesIndisponiveis, setLocalidadesIndisponiveis] = useState(false);
+  const [localidadesIndisponiveis, setLocalidadesIndisponiveis] =
+    useState(false);
 
   // Carregar Estados do IBGE
   useEffect(() => {
@@ -135,7 +136,8 @@ export function PropertySearch() {
       </button>
       {localidadesIndisponiveis && (
         <small role="status">
-          Não foi possível carregar estados e cidades agora. Você ainda pode buscar por outros filtros.
+          Não foi possível carregar estados e cidades agora. Você ainda pode
+          buscar por outros filtros.
         </small>
       )}
     </form>

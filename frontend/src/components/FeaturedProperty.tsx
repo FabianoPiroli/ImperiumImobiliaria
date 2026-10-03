@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { getImoveis, mediaUrl } from "@/src/lib/api";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 type Imovel = {
   id: number;
@@ -43,7 +44,9 @@ export function FeaturedProperty() {
   }, [imagemUrl, imagemAtual]);
 
   function mudarImovel(direcao: 1 | -1) {
-    setIndice((current) => (current + direcao + imoveis.length) % imoveis.length);
+    setIndice(
+      (current) => (current + direcao + imoveis.length) % imoveis.length,
+    );
   }
 
   return (
@@ -69,10 +72,30 @@ export function FeaturedProperty() {
           aria-hidden="true"
         />
       )}
-      {imoveis.length > 1 && <button className="hero-carousel-arrow hero-carousel-arrow-left" type="button" onClick={() => mudarImovel(-1)} aria-label="Imóvel anterior">←</button>}
-      {imoveis.length > 1 && <button className="hero-carousel-arrow hero-carousel-arrow-right" type="button" onClick={() => mudarImovel(1)} aria-label="Próximo imóvel">→</button>}
+      {imoveis.length > 1 && (
+        <button
+          className="hero-carousel-arrow hero-carousel-arrow-left"
+          type="button"
+          onClick={() => mudarImovel(-1)}
+          aria-label="Imóvel anterior"
+        >
+          <ChevronLeft size={22} strokeWidth={2.5} />
+        </button>
+      )}
+      {imoveis.length > 1 && (
+        <button
+          className="hero-carousel-arrow hero-carousel-arrow-right"
+          type="button"
+          onClick={() => mudarImovel(1)}
+          aria-label="Próximo imóvel"
+        >
+          <ChevronRight size={22} strokeWidth={2.5} />
+        </button>
+      )}
       <div className="hero-featured-top">
-        <h2 className="hero-featured-title">{imovel?.titulo ?? "Novos imóveis em breve"}</h2>
+        <h2 className="hero-featured-title">
+          {imovel?.titulo ?? "Novos imóveis em breve"}
+        </h2>
       </div>
       <div className="hero-featured-content">
         <div className="hero-featured-copy">
@@ -86,12 +109,18 @@ export function FeaturedProperty() {
             <span>Nenhum anúncio disponível</span>
           )}
         </div>
-        {imovel && <a className="button" href={`/anuncio/${imovel.id}`}>Ver anúncio</a>}
+        {imovel && (
+          <a className="button" href={`/anuncio/${imovel.id}`}>
+            Ver anúncio
+          </a>
+        )}
       </div>
       {imoveis.length > 1 && (
         <div className="hero-carousel-dock" aria-label="Imóveis em destaque">
           {imoveis.slice(0, 4).map((item, cardIndex) => {
-            const cardImage = item.midias?.find((midia) => midia.tipo === "imagem");
+            const cardImage = item.midias?.find(
+              (midia) => midia.tipo === "imagem",
+            );
             return (
               <button
                 className={`hero-property-card${cardIndex === indice ? " is-active" : ""}`}
@@ -100,7 +129,13 @@ export function FeaturedProperty() {
                 onClick={() => setIndice(cardIndex)}
                 aria-label={`Exibir ${item.titulo}`}
               >
-                {cardImage ? <img src={mediaUrl(cardImage.url)} alt="" /> : <span className="hero-property-card-placeholder">Imperium</span>}
+                {cardImage ? (
+                  <img src={mediaUrl(cardImage.url)} alt="" />
+                ) : (
+                  <span className="hero-property-card-placeholder">
+                    Imperium
+                  </span>
+                )}
                 <span>{item.titulo}</span>
                 <small>{item.cidade}</small>
               </button>

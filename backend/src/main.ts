@@ -79,7 +79,9 @@ async function bootstrap() {
     // Documentação Swagger / OpenAPI
     const swaggerConfig = new DocumentBuilder()
       .setTitle('Imperium Imobiliária - API')
-      .setDescription('Documentação dos endpoints e serviços da Imperium Imobiliária')
+      .setDescription(
+        'Documentação dos endpoints e serviços da Imperium Imobiliária',
+      )
       .setVersion('1.0')
       .addBearerAuth()
       .build();
@@ -101,8 +103,12 @@ if (!process.env.VERCEL) {
   bootstrap().then(() => {
     const port = process.env.PORT ?? 3000;
     server.listen(port, () => {
-      console.log(`Aplicação iniciada com sucesso em: http://localhost:${port}`);
-      console.log(`Documentação Swagger disponível em: http://localhost:${port}/api/docs`);
+      console.log(
+        `Aplicação iniciada com sucesso em: http://localhost:${port}`,
+      );
+      console.log(
+        `Documentação Swagger disponível em: http://localhost:${port}/api/docs`,
+      );
     });
   });
 }

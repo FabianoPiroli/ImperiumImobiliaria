@@ -123,7 +123,7 @@ export default function PropertyMap({
       }).addTo(map);
 
       circle.bindPopup(
-        `<strong>Localização aproximada</strong><br/><small>Por motivos de privacidade, exibimos a região aproximada do imóvel.</small>`
+        `<strong>Localização aproximada</strong><br/><small>Por motivos de privacidade, exibimos a região aproximada do imóvel.</small>`,
       );
       circleRef.current = circle;
       return;
@@ -139,7 +139,7 @@ export default function PropertyMap({
       marker.bindPopup(`<strong>${popupTitle}</strong>`);
     } else if (editable) {
       marker.bindPopup(
-        "<strong>Localização do Imóvel</strong><br/><small>Arraste para ajustar o ponto exato se necessário.</small>"
+        "<strong>Localização do Imóvel</strong><br/><small>Arraste para ajustar o ponto exato se necessário.</small>",
       );
     }
 
@@ -166,10 +166,25 @@ export default function PropertyMap({
     }
 
     markerRef.current = marker;
-  }, [hasCoords, latitude, longitude, editable, ocultarNumeroExato, popupTitle, onLocationChange]);
+  }, [
+    hasCoords,
+    latitude,
+    longitude,
+    editable,
+    ocultarNumeroExato,
+    popupTitle,
+    onLocationChange,
+  ]);
 
   return (
-    <div style={{ position: "relative", width: "100%", borderRadius: "8px", overflow: "hidden" }}>
+    <div
+      style={{
+        position: "relative",
+        width: "100%",
+        borderRadius: "8px",
+        overflow: "hidden",
+      }}
+    >
       <div
         ref={mapContainerRef}
         style={{
@@ -204,4 +219,3 @@ export default function PropertyMap({
     </div>
   );
 }
-

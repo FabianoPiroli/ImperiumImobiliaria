@@ -12,7 +12,28 @@ export function ClientAccess() {
     if (token && saved) setUser(JSON.parse(saved));
   }, []);
   if (!user || user.role !== "cliente") {
-    return <a className="button secondary admin-button" href="/login">Entrar ou criar conta</a>;
+    return (
+      <a className="button secondary admin-button" href="/login">
+        Entrar ou criar conta
+      </a>
+    );
   }
-  return <div className="client-access"><a className="client-name" href="/cliente">Olá, {user.nome.split(" ")[0]}</a><button className="button secondary" type="button" onClick={() => { localStorage.removeItem("imperium_token"); localStorage.removeItem("imperium_user"); window.location.reload(); }}>Sair</button></div>;
+  return (
+    <div className="client-access">
+      <a className="client-name" href="/cliente">
+        Olá, {user.nome.split(" ")[0]}
+      </a>
+      <button
+        className="button secondary"
+        type="button"
+        onClick={() => {
+          localStorage.removeItem("imperium_token");
+          localStorage.removeItem("imperium_user");
+          window.location.reload();
+        }}
+      >
+        Sair
+      </button>
+    </div>
+  );
 }

@@ -74,7 +74,7 @@ export function LocationFields({
   const [latitude, setLatitude] = useState<number | null>(initialLatitude);
   const [longitude, setLongitude] = useState<number | null>(initialLongitude);
   const [ocultarNumeroExato, setOcultarNumeroExato] = useState(
-    initialOcultarNumeroExato
+    initialOcultarNumeroExato,
   );
 
   // Campo inteligente de entrada do Maps / Coordenadas
@@ -302,7 +302,8 @@ export function LocationFields({
         setLongitude(Number(resultado.lng.toFixed(6)));
         setGeoMensagem({
           tipo: "sucesso",
-          texto: "Localização encontrada pelo endereço! Ajuste o pin se necessário.",
+          texto:
+            "Localização encontrada pelo endereço! Ajuste o pin se necessário.",
         });
       } else {
         setGeoMensagem({
@@ -446,7 +447,11 @@ export function LocationFields({
             onClick={buscarPeloEndereco}
             disabled={processandoGeo}
             title="Localizar endereço automaticamente no mapa"
-            style={{ whiteSpace: "nowrap", padding: "0 14px", fontSize: "0.85rem" }}
+            style={{
+              whiteSpace: "nowrap",
+              padding: "0 14px",
+              fontSize: "0.85rem",
+            }}
           >
             {processandoGeo ? "Buscando..." : "📍 Buscar no Mapa"}
           </button>
@@ -454,15 +459,16 @@ export function LocationFields({
       </label>
 
       {/* SEÇÃO DE GEOLOCALIZAÇÃO E MAPA */}
-      <div
-        className="field full location-section"
-      >
+      <div className="field full location-section">
         <div style={{ marginBottom: "12px" }}>
-          <span style={{ fontWeight: 600, display: "block", marginBottom: "4px" }}>
+          <span
+            style={{ fontWeight: 600, display: "block", marginBottom: "4px" }}
+          >
             Localização e Coordenadas no Mapa
           </span>
           <small style={{ color: "var(--muted)" }}>
-            Cole o link do Google Maps, coordenadas ou use a busca automática. Você também pode clicar e arrastar o pin no mapa abaixo.
+            Cole o link do Google Maps, coordenadas ou use a busca automática.
+            Você também pode clicar e arrastar o pin no mapa abaixo.
           </small>
         </div>
 
@@ -504,9 +510,7 @@ export function LocationFields({
 
         {/* Mensagem de Feedback */}
         {geoMensagem && (
-          <div
-            className={`geo-message ${geoMensagem.tipo}`}
-          >
+          <div className={`geo-message ${geoMensagem.tipo}`}>
             {geoMensagem.texto}
           </div>
         )}
@@ -520,8 +524,12 @@ export function LocationFields({
             marginBottom: "12px",
           }}
         >
-          <label style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-            <span style={{ fontSize: "0.8rem", color: "var(--muted)" }}>Latitude</span>
+          <label
+            style={{ display: "flex", flexDirection: "column", gap: "4px" }}
+          >
+            <span style={{ fontSize: "0.8rem", color: "var(--muted)" }}>
+              Latitude
+            </span>
             <input
               type="number"
               step="any"
@@ -534,8 +542,12 @@ export function LocationFields({
               style={{ padding: "8px", fontSize: "0.88rem" }}
             />
           </label>
-          <label style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-            <span style={{ fontSize: "0.8rem", color: "var(--muted)" }}>Longitude</span>
+          <label
+            style={{ display: "flex", flexDirection: "column", gap: "4px" }}
+          >
+            <span style={{ fontSize: "0.8rem", color: "var(--muted)" }}>
+              Longitude
+            </span>
             <input
               type="number"
               step="any"
@@ -587,10 +599,15 @@ export function LocationFields({
             value="true"
             checked={ocultarNumeroExato}
             onChange={(e) => setOcultarNumeroExato(e.target.checked)}
-            style={{ width: "16px", height: "16px", accentColor: "var(--green)" }}
+            style={{
+              width: "16px",
+              height: "16px",
+              accentColor: "var(--green)",
+            }}
           />
           <span>
-            <strong>Ocultar número exato no site</strong> (exibe apenas a região aproximada para o cliente)
+            <strong>Ocultar número exato no site</strong> (exibe apenas a região
+            aproximada para o cliente)
           </span>
         </label>
       </div>

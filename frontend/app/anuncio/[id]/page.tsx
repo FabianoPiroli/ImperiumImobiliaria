@@ -60,10 +60,11 @@ export default function AnuncioPage({
   }, [params]);
   if (!imovel)
     return (
-      <div className="shell">
+      <div className="shell public-shell">
         <div className="container">
           <PublicHeader />
           <main className="detail-loading">Carregando anúncio...</main>
+          <PublicFooter />
         </div>
       </div>
     );
@@ -100,38 +101,38 @@ export default function AnuncioPage({
               <div className="detail-specs">
                 <span>{imovel.tipo}</span>
                 <span
-                          style={{
-                            display: "inline-flex",
-                            alignItems: "center",
-                            gap: "4px",
-                          }}
-                          title={`${imovel.quartos} quartos`}
-                        >
-                          <Bed size={16} />
-                          <span>{imovel.quartos}</span>
-                        </span>
-                        <span
-                          style={{
-                            display: "inline-flex",
-                            alignItems: "center",
-                            gap: "4px",
-                          }}
-                          title={`${imovel.banheiros} banheiros`}
-                        >
-                          <Bath size={16} />
-                          <span>{imovel.banheiros}</span>
-                        </span>
-                        <span
-                          style={{
-                            display: "inline-flex",
-                            alignItems: "center",
-                            gap: "4px",
-                          }}
-                          title={`${imovel.vagasGaragem} vagas`}
-                        >
-                          <Car size={16} />
-                          <span>{imovel.vagasGaragem}</span>
-                        </span>
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "4px",
+                  }}
+                  title={`${imovel.quartos} quartos`}
+                >
+                  <Bed size={16} />
+                  <span>{imovel.quartos}</span>
+                </span>
+                <span
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "4px",
+                  }}
+                  title={`${imovel.banheiros} banheiros`}
+                >
+                  <Bath size={16} />
+                  <span>{imovel.banheiros}</span>
+                </span>
+                <span
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "4px",
+                  }}
+                  title={`${imovel.vagasGaragem} vagas`}
+                >
+                  <Car size={16} />
+                  <span>{imovel.vagasGaragem}</span>
+                </span>
               </div>
               <p className="detail-address">
                 {imovel.ocultarNumeroExato
@@ -184,8 +185,12 @@ export default function AnuncioPage({
                   }}
                 >
                   <div>
-                    <h2 style={{ margin: 0, fontSize: "1.3rem" }}>Localização</h2>
-                    <span style={{ fontSize: "0.88rem", color: "var(--muted)" }}>
+                    <h2 style={{ margin: 0, fontSize: "1.3rem" }}>
+                      Localização
+                    </h2>
+                    <span
+                      style={{ fontSize: "0.88rem", color: "var(--muted)" }}
+                    >
                       {imovel.ocultarNumeroExato
                         ? "Área aproximada do imóvel (a pedido do proprietário)"
                         : `${imovel.endereco} · ${imovel.cidade}`}

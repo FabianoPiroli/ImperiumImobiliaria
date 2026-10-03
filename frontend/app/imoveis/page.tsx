@@ -74,7 +74,7 @@ export default function ImoveisPage() {
           <div className="property-grid">
             {imoveis.map((imovel) => {
               const primeiraImagem = imovel.midias?.find(
-                (m) => m.tipo === "imagem"
+                (m) => m.tipo === "imagem",
               );
               return (
                 <article className="public-property-card" key={imovel.id}>
@@ -137,7 +137,10 @@ export default function ImoveisPage() {
                         </span>
                       </span>
                     </div>
-                    <div className="property-actions" style={{ display: "flex", gap: 8 }}>
+                    <div
+                      className="property-actions"
+                      style={{ display: "flex", gap: 8 }}
+                    >
                       <a
                         className="button secondary"
                         href={`/imoveis/${imovel.id}`}
