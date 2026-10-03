@@ -13,6 +13,10 @@ export default function CadastrarImovelPage() {
   const [quartos, setQuartos] = useState(1);
   const [banheiros, setBanheiros] = useState(1);
   const [vagas, setVagas] = useState(0);
+  const [endereco, setEndereco] = useState("");
+  const [bairro, setBairro] = useState("");
+  const [cidade, setCidade] = useState("");
+  const [estado, setEstado] = useState("SC");
   const [descricao, setDescricao] = useState("");
   const [contatoNome, setContatoNome] = useState("");
   const [contatoTelefone, setContatoTelefone] = useState("");
@@ -37,6 +41,10 @@ export default function CadastrarImovelPage() {
         descricao: descricaoComContato,
         tipo,
         finalidade,
+        estado,
+        cidade,
+        bairro,
+        endereco,
         preco: Number(preco || 0),
         quartos: Number(quartos || 0),
         banheiros: Number(banheiros || 0),
@@ -45,9 +53,13 @@ export default function CadastrarImovelPage() {
         status: "PENDENTE",
       } as any);
 
-      setMensagem("Anúncio enviado com sucesso! Status: PENDENTE para aprovação.");
+      setMensagem("Anúncio enviado com sucesso! Aguardando aprovação.");
       setTitulo("");
       setPreco("");
+      setArea("");
+      setEndereco("");
+      setBairro("");
+      setCidade("");
       setDescricao("");
       setContatoNome("");
       setContatoTelefone("");
@@ -58,118 +70,254 @@ export default function CadastrarImovelPage() {
   }
 
   return (
-    <div style={{ backgroundColor: "#f1f5f9", minHeight: "100vh", color: "#0f172a", fontFamily: "sans-serif" }}>
-      <style>{`
-        .custom-input {
-          border: 2px solid #64748b !important;
-          background-color: #ffffff !important;
-          color: #0f172a !important;
-          border-radius: 6px !important;
-          padding: 10px 12px !important;
-          width: 100% !important;
-          display: block !important;
-          font-size: 14px !important;
-          box-sizing: border-box !important;
-        }
-        .custom-input:focus {
-          border-color: #047857 !important;
-          outline: none !important;
-        }
-        .custom-card {
-          background-color: #ffffff !important;
-          border: 1px solid #cbd5e1 !important;
-          box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
-          border-radius: 12px !important;
-          padding: 32px !important;
-          max-width: 800px !important;
-          margin: 40px auto !important;
-        }
-      `}</style>
+    <div className="min-h-screen bg-slate-900 text-slate-100 font-sans">
       <PublicHeader />
-      <main style={{ padding: "20px" }}>
-        <div className="custom-card">
-          <div style={{ marginBottom: "24px", borderBottom: "1px solid #e2e8f0", paddingBottom: "16px" }}>
-            <h1 style={{ fontSize: "24px", fontWeight: "bold", margin: "0 0 8px 0" }}>Cadastrar imóvel</h1>
-            <p style={{ fontSize: "14px", color: "#64748b", margin: 0 }}>
-              Os anúncios enviados ficarão com status <strong style={{ color: "#b45309" }}>PENDENTE</strong> para aprovação administrativa.
+      <main className="py-12 px-4 sm:px-6">
+        <div className="max-w-4xl mx-auto bg-slate-800 rounded-2xl shadow-2xl border border-slate-700 overflow-hidden">
+          
+          {/* Cabeçalho do Card */}
+          <div className="bg-slate-950/60 p-8 border-b border-slate-700">
+            <h1 className="text-3xl font-extrabold text-white tracking-tight">Cadastrar Novo Imóvel</h1>
+            <p className="text-slate-400 text-sm mt-2 flex items-center gap-2">
+              <span className="inline-block w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span>
+              Os anúncios enviados passarão por aprovação administrativa (Status: <strong className="text-amber-400">PENDENTE</strong>).
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+          <form onSubmit={handleSubmit} className="p-8 space-y-8">
+            
+            {/* Seção 1: Informações Principais */}
             <div>
-              <label style={{ display: "block", fontSize: "14px", fontWeight: "bold", marginBottom: "6px" }}>Título do anúncio *</label>
-              <input value={titulo} onChange={(e) => setTitulo(e.target.value)} required placeholder="Ex: Apartamento amplo no Centro" className="custom-input" />
-            </div>
+              <h2 className="text-lg font-semibold text-emerald-400 mb-4 uppercase tracking-wider text-xs">1. Informações Básicas</h2>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-1">Título do Anúncio *</label>
+                  <input
+                    value={titulo}
+                    onChange={(e) => setTitulo(e.target.value)}
+                    required
+                    placeholder="Ex: Lindo apartamento com 3 quartos no Centro"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition"
+                  />
+                </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "16px" }}>
-              <div>
-                <label style={{ display: "block", fontSize: "14px", fontWeight: "bold", marginBottom: "6px" }}>Preço (R$) *</label>
-                <input value={preco} onChange={(e) => setPreco(e.target.value)} required placeholder="Ex: 350000" className="custom-input" />
-              </div>
-              <div>
-                <label style={{ display: "block", fontSize: "14px", fontWeight: "bold", marginBottom: "6px" }}>Tipo</label>
-                <select value={tipo} onChange={(e) => setTipo(e.target.value)} className="custom-input">
-                  <option value="apartamento">Apartamento</option>
-                  <option value="casa">Casa</option>
-                  <option value="terreno">Terreno</option>
-                  <option value="comercial">Comercial</option>
-                </select>
-              </div>
-              <div>
-                <label style={{ display: "block", fontSize: "14px", fontWeight: "bold", marginBottom: "6px" }}>Finalidade</label>
-                <select value={finalidade} onChange={(e) => setFinalidade(e.target.value)} className="custom-input">
-                  <option value="venda">Venda</option>
-                  <option value="locacao">Aluguel</option>
-                </select>
-              </div>
-            </div>
-
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))", gap: "16px" }}>
-              <div>
-                <label style={{ display: "block", fontSize: "14px", fontWeight: "bold", marginBottom: "6px" }}>Área (m²)</label>
-                <input value={area} onChange={(e) => setArea(e.target.value)} placeholder="120" className="custom-input" />
-              </div>
-              <div>
-                <label style={{ display: "block", fontSize: "14px", fontWeight: "bold", marginBottom: "6px" }}>Quartos</label>
-                <input type="number" value={quartos} onChange={(e) => setQuartos(Number(e.target.value))} className="custom-input" />
-              </div>
-              <div>
-                <label style={{ display: "block", fontSize: "14px", fontWeight: "bold", marginBottom: "6px" }}>Banheiros</label>
-                <input type="number" value={banheiros} onChange={(e) => setBanheiros(Number(e.target.value))} className="custom-input" />
-              </div>
-              <div>
-                <label style={{ display: "block", fontSize: "14px", fontWeight: "bold", marginBottom: "6px" }}>Vagas</label>
-                <input type="number" value={vagas} onChange={(e) => setVagas(Number(e.target.value))} className="custom-input" />
-              </div>
-            </div>
-
-            <div>
-              <label style={{ display: "block", fontSize: "14px", fontWeight: "bold", marginBottom: "6px" }}>Descrição</label>
-              <textarea rows={4} value={descricao} onChange={(e) => setDescricao(e.target.value)} placeholder="Detalhes do imóvel..." className="custom-input" />
-            </div>
-
-            <div style={{ borderTop: "1px solid #e2e8f0", paddingTop: "16px" }}>
-              <h3 style={{ fontSize: "14px", fontWeight: "bold", textTransform: "uppercase", marginBottom: "12px", color: "#334155" }}>Dados de Contato</h3>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "16px" }}>
-                <input value={contatoNome} onChange={(e) => setContatoNome(e.target.value)} placeholder="Nome" className="custom-input" />
-                <input value={contatoTelefone} onChange={(e) => setContatoTelefone(e.target.value)} placeholder="Telefone" className="custom-input" />
-                <input type="email" value={contatoEmail} onChange={(e) => setContatoEmail(e.target.value)} placeholder="E-mail" className="custom-input" />
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-300 mb-1">Preço (R$) *</label>
+                    <input
+                      value={preco}
+                      onChange={(e) => setPreco(e.target.value)}
+                      required
+                      inputMode="numeric"
+                      placeholder="Ex: 450000"
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-300 mb-1">Tipo de Imóvel</label>
+                    <select
+                      value={tipo}
+                      onChange={(e) => setTipo(e.target.value)}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition cursor-pointer"
+                    >
+                      <option value="apartamento">Apartamento</option>
+                      <option value="casa">Casa</option>
+                      <option value="terreno">Terreno</option>
+                      <option value="comercial">Comercial</option>
+                      <option value="cobertura">Cobertura</option>
+                      <option value="outro">Outro</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-300 mb-1">Finalidade</label>
+                    <select
+                      value={finalidade}
+                      onChange={(e) => setFinalidade(e.target.value)}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition cursor-pointer"
+                    >
+                      <option value="venda">Venda</option>
+                      <option value="locacao">Aluguel</option>
+                      <option value="ambos">Venda ou Aluguel</option>
+                    </select>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "1px solid #e2e8f0", paddingTop: "16px" }}>
-              <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "14px", cursor: "pointer" }}>
-                <input type="checkbox" checked={ocultarNumero} onChange={(e) => setOcultarNumero(e.target.checked)} />
-                Ocultar número exato
+            {/* Seção 2: Especificações */}
+            <div className="pt-6 border-t border-slate-700/60">
+              <h2 className="text-lg font-semibold text-emerald-400 mb-4 uppercase tracking-wider text-xs">2. Características do Imóvel</h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-1">Área (m²)</label>
+                  <input
+                    value={area}
+                    onChange={(e) => setArea(e.target.value)}
+                    placeholder="Ex: 85"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-1">Quartos</label>
+                  <input
+                    type="number"
+                    min={0}
+                    value={quartos}
+                    onChange={(e) => setQuartos(Number(e.target.value))}
+                    className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-emerald-500 transition"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-1">Banheiros</label>
+                  <input
+                    type="number"
+                    min={0}
+                    value={banheiros}
+                    onChange={(e) => setBanheiros(Number(e.target.value))}
+                    className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-emerald-500 transition"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-1">Vagas</label>
+                  <input
+                    type="number"
+                    min={0}
+                    value={vagas}
+                    onChange={(e) => setVagas(Number(e.target.value))}
+                    className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-emerald-500 transition"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Seção 3: Localização */}
+            <div className="pt-6 border-t border-slate-700/60">
+              <h2 className="text-lg font-semibold text-emerald-400 mb-4 uppercase tracking-wider text-xs">3. Localização</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-slate-300 mb-1">Endereço / Rua</label>
+                  <input
+                    value={endereco}
+                    onChange={(e) => setEndereco(e.target.value)}
+                    placeholder="Rua, Av., Número..."
+                    className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-1">Bairro</label>
+                  <input
+                    value={bairro}
+                    onChange={(e) => setBairro(e.target.value)}
+                    placeholder="Nome do bairro"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-1">Cidade</label>
+                  <input
+                    value={cidade}
+                    onChange={(e) => setCidade(e.target.value)}
+                    placeholder="Ex: Florianópolis"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-1">Estado (UF)</label>
+                  <input
+                    value={estado}
+                    onChange={(e) => setEstado(e.target.value)}
+                    maxLength={2}
+                    placeholder="SC"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white uppercase placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Seção 4: Descrição e Contato */}
+            <div className="pt-6 border-t border-slate-700/60">
+              <h2 className="text-lg font-semibold text-emerald-400 mb-4 uppercase tracking-wider text-xs">4. Descrição & Contato</h2>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-1">Descrição Completa</label>
+                  <textarea
+                    rows={4}
+                    value={descricao}
+                    onChange={(e) => setDescricao(e.target.value)}
+                    placeholder="Conte mais sobre os diferenciais do imóvel, condomínio, mobília, etc."
+                    className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-300 mb-1">Nome do Anunciante</label>
+                    <input
+                      value={contatoNome}
+                      onChange={(e) => setContatoNome(e.target.value)}
+                      placeholder="Seu nome"
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-300 mb-1">Telefone / WhatsApp</label>
+                    <input
+                      value={contatoTelefone}
+                      onChange={(e) => setContatoTelefone(e.target.value)}
+                      placeholder="(49) 99999-9999"
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-300 mb-1">E-mail</label>
+                    <input
+                      type="email"
+                      value={contatoEmail}
+                      onChange={(e) => setContatoEmail(e.target.value)}
+                      placeholder="seuemail@exemplo.com"
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Ações e Submit */}
+            <div className="pt-6 border-t border-slate-700/60 flex flex-col md:flex-row items-center justify-between gap-4">
+              <label className="flex items-center gap-3 text-sm text-slate-400 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={ocultarNumero}
+                  onChange={(e) => setOcultarNumero(e.target.checked)}
+                  className="w-4 h-4 rounded bg-slate-900 border-slate-700 text-emerald-500 focus:ring-emerald-500 focus:ring-offset-slate-800"
+                />
+                Ocultar número exato no endereço público
               </label>
-              <div style={{ display: "flex", gap: "12px" }}>
-                <Link href="/" style={{ padding: "10px 16px", border: "1px solid #cbd5e1", borderRadius: "6px", textDecoration: "none", color: "#334155", fontSize: "14px" }}>Cancelar</Link>
-                <button type="submit" style={{ padding: "10px 20px", backgroundColor: "#047857", color: "#ffffff", border: "none", borderRadius: "6px", fontWeight: "bold", cursor: "pointer", fontSize: "14px" }}>Enviar anúncio</button>
+
+              <div className="flex items-center gap-4 w-full md:w-auto">
+                <Link
+                  href="/"
+                  className="w-1/2 md:w-auto text-center px-6 py-3 rounded-lg border border-slate-700 text-slate-300 hover:bg-slate-700 transition font-medium text-sm"
+                >
+                  Cancelar
+                </Link>
+                <button
+                  type="submit"
+                  className="w-1/2 md:w-auto px-8 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm shadow-lg shadow-emerald-900/30 transition"
+                >
+                  Enviar Anúncio
+                </button>
               </div>
             </div>
           </form>
 
-          {mensagem && <div style={{ marginTop: "16px", padding: "12px", backgroundColor: "#d1fae5", color: "#065f46", borderRadius: "6px", fontSize: "14px" }}>{mensagem}</div>}
+          {mensagem && (
+            <div className="p-4 m-8 mt-0 rounded-lg bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 text-sm text-center font-medium">
+              {mensagem}
+            </div>
+          )}
         </div>
       </main>
     </div>
