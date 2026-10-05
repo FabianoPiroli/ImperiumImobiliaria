@@ -23,7 +23,9 @@ export default function ClienteLoginPage() {
         : await login(email, senha);
       localStorage.setItem("imperium_token", result.accessToken);
       localStorage.setItem("imperium_user", JSON.stringify(result.user));
-      window.location.href = "/cliente";
+      const searchParams = new URLSearchParams(window.location.search);
+      const nextUrl = searchParams.get("next") || "/cliente";
+      window.location.href = nextUrl;
     } catch (error) {
       setErro(
         error instanceof Error ? error.message : "Não foi possível entrar.",

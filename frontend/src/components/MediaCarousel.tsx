@@ -7,14 +7,17 @@ type Media = { url: string; tipo: string; nome?: string };
 export function MediaCarousel({
   midias,
   titulo,
+  actionOverlay,
 }: {
   midias: Media[];
   titulo: string;
+  actionOverlay?: React.ReactNode;
 }) {
   const [indice, setIndice] = useState(0);
   if (!midias.length)
     return (
-      <div className="detail-placeholder">
+      <div className="detail-placeholder" style={{ position: "relative" }}>
+        {actionOverlay}
         <span className="logo-mark">II</span>
         <span>Imagem em breve</span>
       </div>
@@ -25,7 +28,8 @@ export function MediaCarousel({
   const proxima = () => setIndice((valor) => (valor + 1) % midias.length);
   return (
     <div className="media-carousel">
-      <div className="carousel-stage">
+      <div className="carousel-stage" style={{ position: "relative" }}>
+        {actionOverlay}
         {atual.tipo === "video" ? (
           <video src={mediaUrl(atual.url)} controls />
         ) : (

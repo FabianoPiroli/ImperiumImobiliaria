@@ -1,7 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
-import { getImoveis, mediaUrl } from "@/src/lib/api";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  addClientFavorite,
+  getClientFavorites,
+  getImoveis,
+  mediaUrl,
+  removeClientFavorite,
+} from "@/src/lib/api";
+import { ChevronLeft, ChevronRight, Heart } from "lucide-react";
 
 type Imovel = {
   id: number;
@@ -14,6 +20,7 @@ type Imovel = {
 };
 export function FeaturedProperty() {
   const [imoveis, setImoveis] = useState<Imovel[]>([]);
+  const [favoritos, setFavoritos] = useState<number[]>([]);
   const [indice, setIndice] = useState(0);
   const [pausado, setPausado] = useState(false);
   const [imagemAtual, setImagemAtual] = useState<string | null>(null);
@@ -23,7 +30,31 @@ export function FeaturedProperty() {
     getImoveis()
       .then((items: Imovel[]) => setImoveis(items))
       .catch(() => setImoveis([]));
+    if (typeof window !== "undefined" && localStorage.getItem("imperium_token")) {
+      getClientFavorites()
+        .then((items) =>
+          setFavoritos(items.map((item: { imovelId: number }) => item.imovelId)),
+        )
+        .catch(() => undefined);
+    }
   }, []);
+
+  const toggleFavorito = async (id: number) => {
+    if (!localStorage.getItem("imperium_token")) {
+      window.location.href = `/cliente/login?next=/anuncio/${id}`;
+      return;
+    }
+    const alreadyFavorite = favoritos.includes(id);
+    try {
+      if (alreadyFavorite) await removeClientFavorite(id);
+      else await addClientFavorite(id);
+      setFavoritos((prev) =>
+        alreadyFavorite ? prev.filter((p) => p !== id) : [...prev, id],
+      );
+    } catch {
+      // ignore
+    }
+  };
 
   useEffect(() => {
     if (pausado || imoveis.length < 2) return;
@@ -92,10 +123,47 @@ export function FeaturedProperty() {
           <ChevronRight size={22} strokeWidth={2.5} />
         </button>
       )}
-      <div className="hero-featured-top">
+      <div
+        className="hero-featured-top"
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: "12px",
+        }}
+      >
         <h2 className="hero-featured-title">
           {imovel?.titulo ?? "Novos imóveis em breve"}
         </h2>
+        {imovel && (
+          <button
+            type="button"
+            aria-label={
+              favoritos.includes(imovel.id)
+                ? "Remover dos favoritos"
+                : "Adicionar aos favoritos"
+            }
+            onClick={() => toggleFavorito(imovel.id)}
+            style={{
+              background: "rgba(0,0,0,0.45)",
+              borderRadius: 8,
+              padding: 8,
+              border: "none",
+              cursor: "pointer",
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: favoritos.includes(imovel.id) ? "#ef4444" : "#ffffff",
+              backdropFilter: "blur(4px)",
+              transition: "color 0.2s ease",
+            }}
+          >
+            <Heart
+              size={20}
+              fill={favoritos.includes(imovel.id) ? "currentColor" : "none"}
+            />
+          </button>
+        )}
       </div>
       <div className="hero-featured-content">
         <div className="hero-featured-copy">
