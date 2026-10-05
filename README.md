@@ -3,9 +3,8 @@
 > **Professor:** Roberson Junior Fernandes Alves | **Semestre:** 2026/02  
 > **Equipe MasterCoding:**  
 > - Fabiano Piroli ([github.com/FabianoPiroli](https://github.com/FabianoPiroli))  
-> - Jorge Zastrow ([github.com/jzastrowss-cpu](https://github.com/jzastrowss-cpu))
-> **Vídeo de apresentação:**
-> ([YouTube](https://youtu.be/RKsxQ8L7TyY))
+> - Jorge Zastrow ([github.com/jzastrowss-cpu](https://github.com/jzastrowss-cpu))  
+> **Vídeo de apresentação:** ([YouTube](https://youtu.be/RKsxQ8L7TyY))
 
 # Imperium Imobiliária
 
