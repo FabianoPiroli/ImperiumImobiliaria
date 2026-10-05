@@ -4,8 +4,8 @@
 > **Equipe MasterCoding:**  
 > - Fabiano Piroli ([github.com/FabianoPiroli](https://github.com/FabianoPiroli))  
 > - Jorge Zastrow ([github.com/jzastrowss-cpu](https://github.com/jzastrowss-cpu))
-> **Vídeo de apresentação:**  
-[YouTube](https://youtu.be/RKsxQ8L7TyY)
+> **Vídeo de apresentação:**
+> ([YouTube](https://youtu.be/RKsxQ8L7TyY))
 
 # Imperium Imobiliária
 
